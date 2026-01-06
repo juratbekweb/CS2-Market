@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-bg-primary text-text-primary font-sans;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    @apply text-accent-primary;
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+  }
+  
+  .border-glow {
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+  }
+  
+  .bg-gradient-glow {
+    background: linear-gradient(135deg, #00ff88, #4ecdc4);
+  }
+}
+

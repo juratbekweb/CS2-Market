@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - CS2 Marketplace</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-crosshairs"></i>
+                <span>CS2 Marketplace</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Browse</a></li>
+                <li><a href="account.html" class="active">Account</a></li>
+                <li><a href="#"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">0</span></a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Account Section -->
+    <section class="account-section">
+        <div class="container">
+            <div class="account-layout">
+                <!-- Account Sidebar -->
+                <aside class="account-sidebar">
+                    <div class="account-profile">
+                        <div class="profile-avatar">
+                            <img src="https://via.placeholder.com/100/00ff88/000000?text=U" alt="Profile">
+                        </div>
+                        <h3 class="profile-name">Trader_Pro_2024</h3>
+                        <p class="profile-email">user@example.com</p>
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <span class="stat-value">$12,450</span>
+                                <span class="stat-label">Balance</span>
+                            </div>
+                            <div class="profile-stat">
+                                <span class="stat-value">234</span>
+                                <span class="stat-label">Items</span>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="account-nav">
+                        <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                        <a href="#inventory" class="nav-item" data-section="inventory">
+                            <i class="fas fa-box"></i> My Inventory
+                        </a>
+                        <a href="#wishlist" class="nav-item" data-section="wishlist">
+                            <i class="fas fa-heart"></i> Wishlist
+                        </a>
+                        <a href="#purchases" class="nav-item" data-section="purchases">
+                            <i class="fas fa-shopping-bag"></i> Purchases
+                        </a>
+                        <a href="#sales" class="nav-item" data-section="sales">
+                            <i class="fas fa-dollar-sign"></i> Sales
+                        </a>
+                        <a href="#trades" class="nav-item" data-section="trades">
+                            <i class="fas fa-exchange-alt"></i> Trades
+                        </a>
+                        <a href="#settings" class="nav-item" data-section="settings">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                    </nav>
+                </aside>
+
+                <!-- Account Content -->
+                <main class="account-content">
+                    <!-- Dashboard -->
+                    <div class="account-panel active" id="dashboard">
+                        <h2>Dashboard</h2>
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-label">Total Spent</span>
+                                    <span class="stat-value">$8,450.00</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-label">Total Earned</span>
+                                    <span class="stat-value">$4,200.00</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-label">Items Owned</span>
+                                    <span class="stat-value">234</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-label">Wishlist Items</span>
+                                    <span class="stat-value">18</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="recent-activity">
+                            <h3>Recent Activity</h3>
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <i class="fas fa-shopping-cart activity-icon purchase"></i>
+                                    <div class="activity-content">
+                                        <p>Purchased <strong>AK-47 | Redline</strong></p>
+                                        <span class="activity-date">2 hours ago</span>
+                                    </div>
+                                    <span class="activity-amount">-$125.50</span>
+                                </div>
+                                <div class="activity-item">
+                                    <i class="fas fa-dollar-sign activity-icon sale"></i>
+                                    <div class="activity-content">
+                                        <p>Sold <strong>M4A4 | Howl</strong></p>
+                                        <span class="activity-date">1 day ago</span>
+                                    </div>
+                                    <span class="activity-amount positive">+$450.00</span>
+                                </div>
+                                <div class="activity-item">
+                                    <i class="fas fa-exchange-alt activity-icon trade"></i>
+                                    <div class="activity-content">
+                                        <p>Trade completed with <strong>CS2_Trader</strong></p>
+                                        <span class="activity-date">3 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inventory -->
+                    <div class="account-panel" id="inventory">
+                        <div class="panel-header">
+                            <h2>My Inventory</h2>
+                            <button class="btn btn-primary">List Item for Sale</button>
+                        </div>
+                        <div class="inventory-filters">
+                            <input type="text" placeholder="Search inventory..." class="search-input">
+                            <select class="filter-select">
+                                <option>All Items</option>
+                                <option>Rifles</option>
+                                <option>Pistols</option>
+                                <option>Knives</option>
+                                <option>Gloves</option>
+                            </select>
+                        </div>
+                        <div class="items-grid">
+                            <div class="item-card">
+                                <div class="item-image">
+                                    <img src="https://via.placeholder.com/400x300/1a1a2e/00ff88?text=AK-47+Redline" alt="AK-47 Redline">
+                                    <div class="item-rarity rarity-covert">Covert</div>
+                                    <div class="item-overlay">
+                                        <button class="btn-quick-view">Sell</button>
+                                    </div>
+                                </div>
+                                <div class="item-info">
+                                    <h3 class="item-name">AK-47 | Redline</h3>
+                                    <div class="item-price">
+                                        <span class="price-amount">$125.50</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- More items would be here -->
+                        </div>
+                    </div>
+
+                    <!-- Wishlist -->
+                    <div class="account-panel" id="wishlist">
+                        <div class="panel-header">
+                            <h2>Wishlist</h2>
+                        </div>
+                        <div class="items-grid">
+                            <div class="item-card">
+                                <div class="item-image">
+                                    <img src="https://via.placeholder.com/400x300/1a1a2e/ff6b6b?text=Karambit+Fade" alt="Karambit Fade">
+                                    <div class="item-rarity rarity-covert">Covert</div>
+                                    <div class="item-overlay">
+                                        <button class="btn-quick-view">View</button>
+                                    </div>
+                                    <button class="btn-wishlist-remove"><i class="fas fa-heart"></i></button>
+                                </div>
+                                <div class="item-info">
+                                    <h3 class="item-name">★ Karambit | Fade</h3>
+                                    <div class="item-price">
+                                        <span class="price-amount">$2,450.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- More wishlist items -->
+                        </div>
+                    </div>
+
+                    <!-- Purchases -->
+                    <div class="account-panel" id="purchases">
+                        <h2>Purchase History</h2>
+                        <div class="purchase-list">
+                            <div class="purchase-item">
+                                <img src="https://via.placeholder.com/100/00ff88/000000?text=AK" alt="Item">
+                                <div class="purchase-info">
+                                    <h4>AK-47 | Redline</h4>
+                                    <p>Field-Tested • Float: 0.15</p>
+                                    <span class="purchase-date">Purchased on March 15, 2024</span>
+                                </div>
+                                <div class="purchase-price">$125.50</div>
+                                <button class="btn btn-secondary">View Details</button>
+                            </div>
+                            <!-- More purchases -->
+                        </div>
+                    </div>
+
+                    <!-- Sales -->
+                    <div class="account-panel" id="sales">
+                        <h2>Sales History</h2>
+                        <div class="purchase-list">
+                            <div class="purchase-item">
+                                <img src="https://via.placeholder.com/100/ff6b6b/000000?text=M4" alt="Item">
+                                <div class="purchase-info">
+                                    <h4>M4A4 | Howl</h4>
+                                    <p>Factory New • Float: 0.02</p>
+                                    <span class="purchase-date">Sold on March 14, 2024</span>
+                                </div>
+                                <div class="purchase-price">$450.00</div>
+                                <button class="btn btn-secondary">View Details</button>
+                            </div>
+                            <!-- More sales -->
+                        </div>
+                    </div>
+
+                    <!-- Trades -->
+                    <div class="account-panel" id="trades">
+                        <div class="panel-header">
+                            <h2>Trade History</h2>
+                            <button class="btn btn-primary">New Trade Offer</button>
+                        </div>
+                        <div class="trade-list">
+                            <div class="trade-item">
+                                <div class="trade-status status-completed">Completed</div>
+                                <div class="trade-parties">
+                                    <div class="trade-party">
+                                        <span class="party-label">You Gave:</span>
+                                        <div class="trade-items">
+                                            <span>AK-47 | Redline</span>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <div class="trade-party">
+                                        <span class="party-label">You Received:</span>
+                                        <div class="trade-items">
+                                            <span>M4A4 | Howl</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="trade-date">March 10, 2024</span>
+                            </div>
+                            <!-- More trades -->
+                        </div>
+                    </div>
+
+                    <!-- Settings -->
+                    <div class="account-panel" id="settings">
+                        <h2>Account Settings</h2>
+                        <div class="settings-form">
+                            <div class="form-group">
+                                <label>Display Name</label>
+                                <input type="text" value="Trader_Pro_2024" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" value="user@example.com" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Steam Profile</label>
+                                <input type="text" placeholder="Steam ID or Profile URL" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Notification Preferences</label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" checked> Email notifications
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" checked> Trade offers
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox"> Price alerts
+                                </label>
+                            </div>
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CS2 Marketplace</h3>
+                    <p>The premier destination for Counter-Strike 2 skin trading and collecting.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-steam"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="products.html">Browse Items</a></li>
+                        <li><a href="account.html">My Account</a></li>
+                        <li><a href="#">How to Trade</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:support@cs2marketplace.com">support@cs2marketplace.com</a></li>
+                        <li><a href="#">Live Chat</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 CS2 Marketplace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

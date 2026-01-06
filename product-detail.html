@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail - CS2 Marketplace</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-crosshairs"></i>
+                <span>CS2 Marketplace</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Browse</a></li>
+                <li><a href="account.html">Account</a></li>
+                <li><a href="#"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">0</span></a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Product Detail Section -->
+    <section class="product-detail-section">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <a href="products.html">Browse</a> / <span>AK-47 | Redline</span>
+            </div>
+
+            <div class="product-detail-layout">
+                <!-- Product Images -->
+                <div class="product-images">
+                    <div class="main-image">
+                        <img src="https://via.placeholder.com/600x450/1a1a2e/00ff88?text=AK-47+Redline" alt="AK-47 Redline" id="mainProductImage">
+                        <div class="image-zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </div>
+                    <div class="image-thumbnails">
+                        <div class="thumbnail active" data-image="https://via.placeholder.com/600x450/1a1a2e/00ff88?text=AK-47+Redline">
+                            <img src="https://via.placeholder.com/150x100/1a1a2e/00ff88?text=View+1" alt="View 1">
+                        </div>
+                        <div class="thumbnail" data-image="https://via.placeholder.com/600x450/1a1a2e/00ff88?text=AK-47+Redline+Side">
+                            <img src="https://via.placeholder.com/150x100/1a1a2e/00ff88?text=View+2" alt="View 2">
+                        </div>
+                        <div class="thumbnail" data-image="https://via.placeholder.com/600x450/1a1a2e/00ff88?text=AK-47+Redline+Back">
+                            <img src="https://via.placeholder.com/150x100/1a1a2e/00ff88?text=View+3" alt="View 3">
+                        </div>
+                        <div class="thumbnail" data-image="https://via.placeholder.com/600x450/1a1a2e/00ff88?text=AK-47+Redline+Inspect">
+                            <img src="https://via.placeholder.com/150x100/1a1a2e/00ff88?text=View+4" alt="View 4">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="product-info">
+                    <div class="product-header">
+                        <h1 class="product-title">AK-47 | Redline</h1>
+                        <div class="product-rarity">
+                            <span class="rarity-badge rarity-covert">Covert</span>
+                            <span class="product-condition">Field-Tested</span>
+                        </div>
+                    </div>
+
+                    <div class="product-price-section">
+                        <div class="current-price">
+                            <span class="price-label">Current Price</span>
+                            <span class="price-amount-large">$125.50</span>
+                        </div>
+                        <div class="price-history">
+                            <span class="price-change positive">+$5.20 (24h)</span>
+                            <a href="#" class="price-chart-link">View Price History <i class="fas fa-chart-line"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="product-stats">
+                        <div class="stat-row">
+                            <span class="stat-label">Float Value:</span>
+                            <span class="stat-value">0.15023456</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Pattern:</span>
+                            <span class="stat-value">661</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Stickers:</span>
+                            <span class="stat-value">None</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">StatTrak™:</span>
+                            <span class="stat-value">No</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Souvenir:</span>
+                            <span class="stat-value">No</span>
+                        </div>
+                    </div>
+
+                    <div class="product-actions">
+                        <button class="btn btn-primary btn-large">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                        <button class="btn btn-secondary btn-large">
+                            <i class="fas fa-exchange-alt"></i> Make Trade Offer
+                        </button>
+                        <button class="btn btn-icon" title="Add to Wishlist">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="btn btn-icon" title="Share">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                    </div>
+
+                    <div class="seller-info">
+                        <h3>Seller Information</h3>
+                        <div class="seller-details">
+                            <div class="seller-avatar">
+                                <img src="https://via.placeholder.com/50/00ff88/000000?text=U" alt="User">
+                            </div>
+                            <div class="seller-meta">
+                                <span class="seller-name">Trader_Pro_2024</span>
+                                <span class="seller-rating">
+                                    <i class="fas fa-star"></i> 4.9 (234 reviews)
+                                </span>
+                            </div>
+                        </div>
+                        <div class="seller-stats">
+                            <div class="seller-stat">
+                                <span class="stat-number">1,234</span>
+                                <span class="stat-label">Items Sold</span>
+                            </div>
+                            <div class="seller-stat">
+                                <span class="stat-number">98%</span>
+                                <span class="stat-label">Positive Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Tabs -->
+            <div class="product-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="description">Description</button>
+                    <button class="tab-btn" data-tab="specs">Specifications</button>
+                    <button class="tab-btn" data-tab="history">Price History</button>
+                    <button class="tab-btn" data-tab="reviews">Reviews</button>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="description">
+                        <h3>About This Item</h3>
+                        <p>The AK-47 | Redline is one of the most iconic and sought-after skins in Counter-Strike 2. Featuring a striking red and black design, this weapon skin has become a symbol of prestige among players.</p>
+                        <p>This particular item is in Field-Tested condition with a float value of 0.15, making it an excellent balance between appearance and value.</p>
+                    </div>
+                    <div class="tab-pane" id="specs">
+                        <h3>Technical Specifications</h3>
+                        <table class="specs-table">
+                            <tr>
+                                <td>Weapon Type</td>
+                                <td>Rifle</td>
+                            </tr>
+                            <tr>
+                                <td>Collection</td>
+                                <td>The Cache Collection</td>
+                            </tr>
+                            <tr>
+                                <td>Rarity</td>
+                                <td>Covert</td>
+                            </tr>
+                            <tr>
+                                <td>Condition</td>
+                                <td>Field-Tested</td>
+                            </tr>
+                            <tr>
+                                <td>Float Range</td>
+                                <td>0.10 - 0.20</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="history">
+                        <h3>Price History</h3>
+                        <div class="price-chart-placeholder">
+                            <p>Price chart would be displayed here</p>
+                            <p>Last 30 days: $120.00 - $130.00</p>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="reviews">
+                        <h3>Customer Reviews</h3>
+                        <div class="review-item">
+                            <div class="review-header">
+                                <span class="reviewer-name">CS2_Player</span>
+                                <span class="review-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </div>
+                            <p class="review-text">Great condition, fast delivery, exactly as described!</p>
+                            <span class="review-date">2 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Items -->
+            <div class="related-items">
+                <h2 class="section-title">
+                    <span class="title-accent">Related</span> Items
+                </h2>
+                <div class="items-grid">
+                    <div class="item-card">
+                        <div class="item-image">
+                            <img src="https://via.placeholder.com/400x300/1a1a2e/ff6b6b?text=AK-47+Vulcan" alt="AK-47 Vulcan">
+                            <div class="item-rarity rarity-covert">Covert</div>
+                            <div class="item-overlay">
+                                <a href="product-detail.html" class="btn-quick-view">View</a>
+                            </div>
+                        </div>
+                        <div class="item-info">
+                            <h3 class="item-name">AK-47 | Vulcan</h3>
+                            <div class="item-price">
+                                <span class="price-amount">$98.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-image">
+                            <img src="https://via.placeholder.com/400x300/1a1a2e/4ecdc4?text=AK-47+Fire+Serpent" alt="AK-47 Fire Serpent">
+                            <div class="item-rarity rarity-covert">Covert</div>
+                            <div class="item-overlay">
+                                <a href="product-detail.html" class="btn-quick-view">View</a>
+                            </div>
+                        </div>
+                        <div class="item-info">
+                            <h3 class="item-name">AK-47 | Fire Serpent</h3>
+                            <div class="item-price">
+                                <span class="price-amount">$450.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-image">
+                            <img src="https://via.placeholder.com/400x300/1a1a2e/ffd93d?text=AK-47+Jaguar" alt="AK-47 Jaguar">
+                            <div class="item-rarity rarity-restricted">Restricted</div>
+                            <div class="item-overlay">
+                                <a href="product-detail.html" class="btn-quick-view">View</a>
+                            </div>
+                        </div>
+                        <div class="item-info">
+                            <h3 class="item-name">AK-47 | Jaguar</h3>
+                            <div class="item-price">
+                                <span class="price-amount">$65.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <div class="item-image">
+                            <img src="https://via.placeholder.com/400x300/1a1a2e/00ff88?text=AK-47+Point+Disarray" alt="AK-47 Point Disarray">
+                            <div class="item-rarity rarity-classified">Classified</div>
+                            <div class="item-overlay">
+                                <a href="product-detail.html" class="btn-quick-view">View</a>
+                            </div>
+                        </div>
+                        <div class="item-info">
+                            <h3 class="item-name">AK-47 | Point Disarray</h3>
+                            <div class="item-price">
+                                <span class="price-amount">$42.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CS2 Marketplace</h3>
+                    <p>The premier destination for Counter-Strike 2 skin trading and collecting.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-steam"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="products.html">Browse Items</a></li>
+                        <li><a href="account.html">My Account</a></li>
+                        <li><a href="#">How to Trade</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:support@cs2marketplace.com">support@cs2marketplace.com</a></li>
+                        <li><a href="#">Live Chat</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 CS2 Marketplace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

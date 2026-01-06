@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Items - CS2 Marketplace</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-crosshairs"></i>
+                <span>CS2 Marketplace</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Browse</a></li>
+                <li><a href="account.html">Account</a></li>
+                <li><a href="#"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">0</span></a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Browse All Items</h1>
+            <p>Find your perfect CS2 skin</p>
+        </div>
+    </section>
+
+    <!-- Filters and Products -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-layout">
+                <!-- Sidebar Filters -->
+                <aside class="filters-sidebar">
+                    <div class="filter-group">
+                        <h3 class="filter-title">Weapon Type</h3>
+                        <div class="filter-options">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="rifles">
+                                <span>Rifles</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="pistols">
+                                <span>Pistols</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="knives">
+                                <span>Knives</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="gloves">
+                                <span>Gloves</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="smgs">
+                                <span>SMGs</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="heavy">
+                                <span>Heavy</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3 class="filter-title">Rarity</h3>
+                        <div class="filter-options">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="consumer">
+                                <span class="rarity-badge rarity-consumer">Consumer</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="industrial">
+                                <span class="rarity-badge rarity-industrial">Industrial</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="milspec">
+                                <span class="rarity-badge rarity-milspec">Mil-Spec</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="restricted">
+                                <span class="rarity-badge rarity-restricted">Restricted</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="classified">
+                                <span class="rarity-badge rarity-classified">Classified</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="covert">
+                                <span class="rarity-badge rarity-covert">Covert</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3 class="filter-title">Condition</h3>
+                        <div class="filter-options">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="factory-new">
+                                <span>Factory New</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="minimal-wear">
+                                <span>Minimal Wear</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="field-tested">
+                                <span>Field-Tested</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="well-worn">
+                                <span>Well-Worn</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" value="battle-scarred">
+                                <span>Battle-Scarred</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3 class="filter-title">Price Range</h3>
+                        <div class="price-range">
+                            <input type="range" id="priceMin" min="0" max="5000" value="0" class="price-slider">
+                            <input type="range" id="priceMax" min="0" max="5000" value="5000" class="price-slider">
+                            <div class="price-display">
+                                <span>$<span id="priceMinValue">0</span></span>
+                                <span>$<span id="priceMaxValue">5000</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary filter-apply">Apply Filters</button>
+                    <button class="btn btn-secondary filter-reset">Reset</button>
+                </aside>
+
+                <!-- Products Grid -->
+                <main class="products-main">
+                    <div class="products-header">
+                        <div class="sort-options">
+                            <label>Sort by:</label>
+                            <select id="sortSelect" class="sort-select">
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
+                                <option value="name-asc">Name: A to Z</option>
+                                <option value="name-desc">Name: Z to A</option>
+                                <option value="newest">Newest First</option>
+                            </select>
+                        </div>
+                        <div class="results-count">
+                            <span id="resultsCount">1,234 items found</span>
+                        </div>
+                    </div>
+
+                    <div class="items-grid" id="productsGrid">
+                        <!-- Product cards will be generated here -->
+                    </div>
+
+                    <div class="pagination">
+                        <button class="btn-pagination" disabled><i class="fas fa-chevron-left"></i> Previous</button>
+                        <div class="pagination-numbers">
+                            <span class="page-number active">1</span>
+                            <span class="page-number">2</span>
+                            <span class="page-number">3</span>
+                            <span class="page-number">4</span>
+                            <span class="page-number">5</span>
+                        </div>
+                        <button class="btn-pagination">Next <i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CS2 Marketplace</h3>
+                    <p>The premier destination for Counter-Strike 2 skin trading and collecting.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-steam"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="products.html">Browse Items</a></li>
+                        <li><a href="account.html">My Account</a></li>
+                        <li><a href="#">How to Trade</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:support@cs2marketplace.com">support@cs2marketplace.com</a></li>
+                        <li><a href="#">Live Chat</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 CS2 Marketplace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
