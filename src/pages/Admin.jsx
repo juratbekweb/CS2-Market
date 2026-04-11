@@ -322,7 +322,7 @@ export default function Admin() {
   const filteredProducts = useMemo(() => {
     return normalizedProducts.filter((product) => {
       const query = searchQuery.trim().toLowerCase()
-      const matchesSearch = !query || product.name.toLowerCase().includes(query) || product.category.toLowerCase().includes(query) || product.tags.some((tag) => tag.toLowerCase().includes(query))
+      const matchesSearch = !query || product.name.toLowerCase().includes(query) || product.category.toLowerCase().includes(query) || (Array.isArray(product.tags) && product.tags.some((tag) => tag.toLowerCase().includes(query)))
       const matchesCategory = !filterCategory || product.category === filterCategory
       const matchesRarity = !filterRarity || product.rarity === filterRarity
       const matchesStatus = !filterStatus || product.status === filterStatus

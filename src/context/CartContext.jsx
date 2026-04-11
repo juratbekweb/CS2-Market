@@ -26,8 +26,9 @@ export function CartProvider({ children }) {
         const savedCart = localStorage.getItem('cartItems')
         if (savedCart) {
           const items = JSON.parse(savedCart)
-          setCartItems(items)
-          setCartCount(items.length)
+          const normalizedItems = Array.isArray(items) ? items : []
+          setCartItems(normalizedItems)
+          setCartCount(normalizedItems.length)
         }
       }
 

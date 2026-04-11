@@ -17,8 +17,9 @@ export function WishlistProvider({ children }) {
         const savedWishlist = localStorage.getItem('wishlistItems')
         if (savedWishlist) {
           const items = JSON.parse(savedWishlist)
-          setWishlistItems(items)
-          setWishlistCount(items.length)
+          const normalizedItems = Array.isArray(items) ? items : []
+          setWishlistItems(normalizedItems)
+          setWishlistCount(normalizedItems.length)
         }
       }
     }
@@ -61,7 +62,7 @@ export function WishlistProvider({ children }) {
   }
 
   const isInWishlist = (itemId) => {
-    return wishlistItems.some(item => item.id === itemId)
+    return Array.isArray(wishlistItems) && wishlistItems.some(item => item.id === itemId)
   }
 
   const clearWishlist = () => {
