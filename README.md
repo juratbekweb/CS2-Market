@@ -192,3 +192,4 @@ This is a demonstration project. Feel free to use and modify as needed.
 ---
 
 **Built with ❤️ for CS2 players and collectors**
+# CS2-Market
