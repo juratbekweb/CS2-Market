@@ -1,0 +1,578 @@
+[
+  {
+    "id": 1,
+    "name": "AK-47 | Redline",
+    "rarity": "covert",
+    "condition": "Field-Tested",
+    "float": 0.15,
+    "price": 125.5,
+    "image": null,
+    "category": "rifles",
+    "description": "The AK-47 | Redline is one of the most iconic and sought-after skins in Counter-Strike 2.",
+    "stats": {
+      "float": 0.15023456,
+      "pattern": 661,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 2,
+    "name": "★ Karambit | Fade",
+    "rarity": "covert",
+    "condition": "Factory New",
+    "float": 0.01,
+    "price": 2450,
+    "image": null,
+    "category": "knives",
+    "description": "A rare and highly sought-after knife skin with a beautiful fade pattern.",
+    "stats": {
+      "float": 0.01,
+      "pattern": 412,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 3,
+    "name": "AWP | Dragon Lore",
+    "rarity": "covert",
+    "condition": "Minimal Wear",
+    "float": 0.08,
+    "price": 3200,
+    "image": null,
+    "category": "rifles",
+    "description": "The legendary AWP Dragon Lore, one of the most expensive skins in CS2.",
+    "stats": {
+      "float": 0.08,
+      "pattern": 103,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 4,
+    "name": "Sport Gloves | Pandora's Box",
+    "rarity": "classified",
+    "condition": "Field-Tested",
+    "float": 0.22,
+    "price": 890,
+    "image": null,
+    "category": "gloves",
+    "description": "Premium sport gloves with an intricate design pattern.",
+    "stats": {
+      "float": 0.22,
+      "pattern": 789,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 5,
+    "name": "M4A4 | Howl",
+    "rarity": "covert",
+    "condition": "Factory New",
+    "float": 0.02,
+    "price": 450,
+    "image": null,
+    "category": "rifles",
+    "description": "A rare and discontinued skin, highly valued by collectors.",
+    "stats": {
+      "float": 0.02,
+      "pattern": 234,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 6,
+    "name": "Glock-18 | Fade",
+    "rarity": "covert",
+    "condition": "Factory New",
+    "float": 0.01,
+    "price": 380,
+    "image": null,
+    "category": "pistols",
+    "description": "A beautiful fade pattern on the Glock-18.",
+    "stats": {
+      "float": 0.01,
+      "pattern": 567,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 7,
+    "name": "AK-47 | Vulcan",
+    "rarity": "covert",
+    "condition": "Minimal Wear",
+    "float": 0.1,
+    "price": 98,
+    "image": null,
+    "category": "rifles",
+    "description": "A popular AK-47 skin with a futuristic design.",
+    "stats": {
+      "float": 0.1,
+      "pattern": 445,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 8,
+    "name": "Desert Eagle | Blaze",
+    "rarity": "covert",
+    "condition": "Factory New",
+    "float": 0.01,
+    "price": 220,
+    "image": null,
+    "category": "pistols",
+    "description": "A fiery design on the Desert Eagle.",
+    "stats": {
+      "float": 0.01,
+      "pattern": 123,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 9,
+    "name": "AWP | Asiimov",
+    "rarity": "covert",
+    "condition": "Field-Tested",
+    "float": 0.18,
+    "price": 45,
+    "image": null,
+    "category": "rifles",
+    "description": "A popular futuristic AWP skin.",
+    "stats": {
+      "float": 0.18,
+      "pattern": 890,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 10,
+    "name": "M4A1-S | Icarus Fell",
+    "rarity": "classified",
+    "condition": "Factory New",
+    "float": 0.02,
+    "price": 85,
+    "image": null,
+    "category": "rifles",
+    "description": "A beautiful gradient design on the M4A1-S.",
+    "stats": {
+      "float": 0.02,
+      "pattern": 334,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 11,
+    "name": "★ Butterfly Knife | Fade",
+    "rarity": "covert",
+    "condition": "Factory New",
+    "float": 0.01,
+    "price": 1850,
+    "image": null,
+    "category": "knives",
+    "description": "A stunning butterfly knife with fade pattern.",
+    "stats": {
+      "float": 0.01,
+      "pattern": 678,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 13,
+    "name": "UMP-45 | Blaze",
+    "rarity": "classified",
+    "condition": "Field-Tested",
+    "float": 0.25,
+    "price": 75,
+    "image": null,
+    "category": "smgs",
+    "description": "A fiery design on the UMP-45.",
+    "stats": {
+      "float": 0.25,
+      "pattern": 567,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 14,
+    "name": "Nova | Antique",
+    "rarity": "restricted",
+    "condition": "Minimal Wear",
+    "float": 0.12,
+    "price": 45,
+    "image": null,
+    "category": "heavy",
+    "description": "A vintage shotgun skin.",
+    "stats": {
+      "float": 0.12,
+      "pattern": 890,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 15,
+    "name": "P250 | Muertos",
+    "rarity": "classified",
+    "condition": "Factory New",
+    "float": 0.03,
+    "price": 120,
+    "image": null,
+    "category": "pistols",
+    "description": "A skull-themed pistol skin.",
+    "stats": {
+      "float": 0.03,
+      "pattern": 234,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 17,
+    "name": "★ M9 Bayonet | Crimson Web",
+    "rarity": "covert",
+    "condition": "Minimal Wear",
+    "float": 0.08,
+    "price": 1200,
+    "image": null,
+    "category": "knives",
+    "description": "A premium bayonet with a striking crimson web pattern.",
+    "stats": {
+      "float": 0.08,
+      "pattern": 234,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 18,
+    "name": "★ Talon Knife | Damascus Steel",
+    "rarity": "covert",
+    "condition": "Factory New",
+    "float": 0.01,
+    "price": 2100,
+    "image": null,
+    "category": "knives",
+    "description": "An elegant talon knife with damascus steel finish.",
+    "stats": {
+      "float": 0.01,
+      "pattern": 456,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 19,
+    "name": "★ Huntsman Knife | Slaughter",
+    "rarity": "covert",
+    "condition": "Field-Tested",
+    "float": 0.2,
+    "price": 850,
+    "image": null,
+    "category": "knives",
+    "description": "A tactical huntsman knife with slaughter pattern.",
+    "stats": {
+      "float": 0.2,
+      "pattern": 789,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 20,
+    "name": "★ Bowie Knife | Gamma Doppler",
+    "rarity": "covert",
+    "condition": "Factory New",
+    "float": 0.01,
+    "price": 2800,
+    "image": null,
+    "category": "knives",
+    "description": "A rare doppler knife with gamma phase.",
+    "stats": {
+      "float": 0.01,
+      "pattern": 123,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 21,
+    "name": "Moto Gloves | Bloodhound",
+    "rarity": "classified",
+    "condition": "Minimal Wear",
+    "float": 0.12,
+    "price": 650,
+    "image": null,
+    "category": "gloves",
+    "description": "Racing gloves with bloodhound pattern.",
+    "stats": {
+      "float": 0.12,
+      "pattern": 567,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 22,
+    "name": "Driver Gloves | Imperial Plaid",
+    "rarity": "classified",
+    "condition": "Factory New",
+    "float": 0.02,
+    "price": 950,
+    "image": null,
+    "category": "gloves",
+    "description": "Premium driver gloves with imperial plaid design.",
+    "stats": {
+      "float": 0.02,
+      "pattern": 890,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 23,
+    "name": "Specialist Gloves | Crimson Kimono",
+    "rarity": "classified",
+    "condition": "Field-Tested",
+    "float": 0.18,
+    "price": 720,
+    "image": null,
+    "category": "gloves",
+    "description": "Specialist gloves with crimson kimono pattern.",
+    "stats": {
+      "float": 0.18,
+      "pattern": 345,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 24,
+    "name": "Hand Wraps | CAUTION!",
+    "rarity": "restricted",
+    "condition": "Minimal Wear",
+    "float": 0.1,
+    "price": 180,
+    "image": null,
+    "category": "gloves",
+    "description": "Warning-themed hand wraps.",
+    "stats": {
+      "float": 0.1,
+      "pattern": 678,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 25,
+    "name": "AK-47 | Case Hardened",
+    "rarity": "classified",
+    "condition": "Well-Worn",
+    "float": 0.45,
+    "price": 150,
+    "image": null,
+    "category": "rifles",
+    "description": "Classic case hardened AK-47 with blue tint.",
+    "stats": {
+      "float": 0.45,
+      "pattern": 234,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 26,
+    "name": "M4A1-S | Dark Water",
+    "rarity": "restricted",
+    "condition": "Minimal Wear",
+    "float": 0.08,
+    "price": 95,
+    "image": null,
+    "category": "rifles",
+    "description": "M4A1-S with dark water finish.",
+    "stats": {
+      "float": 0.08,
+      "pattern": 567,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 27,
+    "name": "AWP | Pink DDPAT",
+    "rarity": "industrial",
+    "condition": "Factory New",
+    "float": 0.01,
+    "price": 25,
+    "image": null,
+    "category": "rifles",
+    "description": "Fun pink camo pattern on AWP.",
+    "stats": {
+      "float": 0.01,
+      "pattern": 890,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 28,
+    "name": "P2000 | Fire Elemental",
+    "rarity": "covert",
+    "condition": "Field-Tested",
+    "float": 0.25,
+    "price": 35,
+    "image": null,
+    "category": "pistols",
+    "description": "P2000 with fire elemental design.",
+    "stats": {
+      "float": 0.25,
+      "pattern": 123,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 29,
+    "name": "Five-SeveN | Case Hardened",
+    "rarity": "classified",
+    "condition": "Battle-Scarred",
+    "float": 0.6,
+    "price": 45,
+    "image": null,
+    "category": "pistols",
+    "description": "Case hardened Five-SeveN.",
+    "stats": {
+      "float": 0.6,
+      "pattern": 456,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 30,
+    "name": "Tec-9 | Fuel Injector",
+    "rarity": "classified",
+    "condition": "Minimal Wear",
+    "float": 0.12,
+    "price": 85,
+    "image": null,
+    "category": "pistols",
+    "description": "Tec-9 with fuel injector pattern.",
+    "stats": {
+      "float": 0.12,
+      "pattern": 789,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 31,
+    "name": "MP9 | Bulldozer",
+    "rarity": "classified",
+    "condition": "Factory New",
+    "float": 0.03,
+    "price": 65,
+    "image": null,
+    "category": "smgs",
+    "description": "MP9 with bulldozer design.",
+    "stats": {
+      "float": 0.03,
+      "pattern": 234,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 32,
+    "name": "PP-Bizon | Judgement of Anubis",
+    "rarity": "covert",
+    "condition": "Field-Tested",
+    "float": 0.2,
+    "price": 28,
+    "image": null,
+    "category": "smgs",
+    "description": "PP-Bizon with Anubis theme.",
+    "stats": {
+      "float": 0.2,
+      "pattern": 567,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 33,
+    "name": "MAG-7 | Heat",
+    "rarity": "restricted",
+    "condition": "Minimal Wear",
+    "float": 0.1,
+    "price": 15,
+    "image": null,
+    "category": "heavy",
+    "description": "MAG-7 with heat pattern.",
+    "stats": {
+      "float": 0.1,
+      "pattern": 890,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  },
+  {
+    "id": 34,
+    "name": "Sawed-Off | The Kraken",
+    "rarity": "covert",
+    "condition": "Factory New",
+    "float": 0.02,
+    "price": 75,
+    "image": null,
+    "category": "heavy",
+    "description": "Sawed-Off with Kraken design.",
+    "stats": {
+      "float": 0.02,
+      "pattern": 123,
+      "stickers": "None",
+      "stattrak": false,
+      "souvenir": false
+    }
+  }
+]

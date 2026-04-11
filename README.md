@@ -6,27 +6,43 @@ A modern, professional React application for a Counter-Strike 2 (CS2) skin marke
 
 - **React Router** for navigation
 - **TailwindCSS** for styling with dark esports theme
-- **Context API** for state management (cart)
+- **Context API** for state management (cart & wishlist)
+- **Local Storage** for data persistence
 - **Responsive Design** for all devices
 - **Interactive UI** with hover effects and animations
-- **Product Filtering** by type, rarity, condition, and price
-- **User Account Dashboard** with multiple sections
-- **Shopping Cart** functionality
+- **Product Filtering** by weapon type, rarity, condition, and price range
+- **Advanced Sorting** by price and name
+- **User Account Dashboard** with inventory, wishlist, purchases, sales, and trades
+- **Shopping Cart** with persistent storage
+- **Product Detail Pages** with image galleries and statistics
+- **Real CS2 Skin Images** from Steam Community
+- **Comprehensive Product Database** with 34+ items including knives, gloves, and weapons
 
 ## 📦 Installation
 
-1. **Install dependencies:**
+1. **Install frontend dependencies:**
    ```bash
    npm install
    ```
 
-2. **Start the development server:**
+2. **Install backend dependencies:**
+   ```bash
+   cd server && npm install
+   cd ..
+   ```
+
+3. **Run the backend API server:**
+   ```bash
+   npm run server
+   ```
+
+4. **Run the frontend dev server (in a separate terminal):**
    ```bash
    npm run dev
    ```
 
-3. **Open your browser:**
-   The app will automatically open at `http://localhost:3000`
+5. **Open your browser:**
+   The frontend will automatically open at `http://localhost:3000` and API requests will proxy to `http://localhost:5000`.
 
 ## 🛠️ Build for Production
 
@@ -41,13 +57,24 @@ The built files will be in the `dist` folder.
 ```
 src/
 ├── components/          # Reusable components
-│   ├── Navbar.jsx      # Navigation bar
-│   ├── Footer.jsx      # Footer component
-│   └── ItemCard.jsx    # Product card component
-├── context/            # React Context
-│   └── CartContext.jsx # Shopping cart state
+│   ├── Navbar.jsx      # Navigation bar with cart/wishlist counters
+│   ├── Footer.jsx      # Footer with social links
+│   └── ItemCard.jsx    # Product card with add to cart/wishlist
+├── context/            # React Context for state management
+│   ├── CartContext.jsx    # Shopping cart state
+│   └── WishlistContext.jsx # Wishlist functionality
 ├── data/               # Static data
-│   └── products.js    # Product data
+│   └── products.js     # Comprehensive product database
+├── pages/              # Page components
+│   ├── Home.jsx        # Landing page with featured items
+│   ├── Products.jsx    # Product listing with advanced filters
+│   ├── ProductDetail.jsx # Detailed product view
+│   ├── Account.jsx     # User dashboard
+│   └── Cart.jsx        # Shopping cart
+├── App.jsx             # Main app component with routing
+├── main.jsx            # App entry point
+└── index.css           # Global styles and Tailwind imports
+```
 ├── pages/              # Page components
 │   ├── Home.jsx        # Homepage
 │   ├── Products.jsx    # Product listing page

@@ -1,0 +1,28 @@
+[
+  {
+    "orderId": "ORD-1773442734701",
+    "total": 25,
+    "items": [
+      {
+        "id": 27,
+        "name": "AWP | Pink DDPAT",
+        "rarity": "industrial",
+        "condition": "Factory New",
+        "float": 0.01,
+        "price": 25,
+        "image": "/src/images/weapons/AWP-Pink%20DDPAT.png",
+        "category": "rifles",
+        "description": "Fun pink camo pattern on AWP.",
+        "stats": {
+          "float": 0.01,
+          "pattern": 890,
+          "stickers": "None",
+          "stattrak": false,
+          "souvenir": false
+        }
+      }
+    ],
+    "purchasedAt": "2026-03-13T22:58:54.701Z",
+    "status": "shipped"
+  }
+]
