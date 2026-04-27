@@ -1,11 +1,9 @@
 @echo off
-echo Starting CS2 Marketplace Server...
+echo Starting original CS2 Marketplace frontend...
 echo.
-echo Server will be available at: http://localhost:8000
+echo Frontend will run from the old project version in /CS2-Market
+echo Default URL: http://localhost:3003
 echo.
-echo Press Ctrl+C to stop the server
-echo.
-cd /d %~dp0
-python -m http.server 8000
+cd /d %~dp0CS2-Market
+npm run dev
 pause
-

@@ -1,0 +1,176 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ListingStatus {
+  ACTIVE
+  SOLD
+  CANCELLED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  PURCHASE
+  SALE
+  COMMISSION
+}
+
+model User {
+  id             String            @id @default(cuid())
+  name           String?
+  email          String?           @unique
+  emailVerified  DateTime?
+  image          String?
+  avatar         String?
+  steamId        String?           @unique
+  balance        Decimal           @default(0) @db.Decimal(12, 2)
+  totalProfit    Decimal           @default(0) @db.Decimal(12, 2)
+  role           Role              @default(USER)
+  isBlocked      Boolean           @default(false)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  accounts       Account[]
+  sessions       Session[]
+  listings       Listing[]
+  favorites      Favorite[]
+  inventoryItems InventoryItem[]
+  transactions   Transaction[]
+  notifications  Notification[]
+}
+
+model Skin {
+  id               String          @id @default(cuid())
+  slug             String          @unique
+  name             String
+  category         String
+  rarity           String
+  exterior         String
+  wear             Float
+  price            Decimal         @db.Decimal(12, 2)
+  image            String
+  finishStyle      String
+  description      String
+  collection       String
+  liquidityScore   Int
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  listings         Listing[]
+  favorites        Favorite[]
+  inventoryItems   InventoryItem[]
+  pricePoints      PricePoint[]
+}
+
+model Listing {
+  id          String        @id @default(cuid())
+  sellerId    String
+  skinId      String
+  askPrice    Decimal       @db.Decimal(12, 2)
+  status      ListingStatus @default(ACTIVE)
+  createdAt   DateTime      @default(now())
+  soldAt      DateTime?
+  seller      User          @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  skin        Skin          @relation(fields: [skinId], references: [id], onDelete: Cascade)
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  skinId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skin      Skin     @relation(fields: [skinId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, skinId])
+}
+
+model InventoryItem {
+  id           String   @id @default(cuid())
+  userId       String
+  skinId       String
+  acquisition  Decimal  @db.Decimal(12, 2)
+  currentValue Decimal  @db.Decimal(12, 2)
+  isListed     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skin         Skin     @relation(fields: [skinId], references: [id], onDelete: Cascade)
+}
+
+model Transaction {
+  id          String          @id @default(cuid())
+  userId      String
+  type        TransactionType
+  amount      Decimal         @db.Decimal(12, 2)
+  description String
+  metadata    Json?
+  createdAt   DateTime        @default(now())
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  body      String
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PricePoint {
+  id        String   @id @default(cuid())
+  skinId     String
+  date      DateTime
+  value     Decimal  @db.Decimal(12, 2)
+  skin      Skin     @relation(fields: [skinId], references: [id], onDelete: Cascade)
+}
+
+model PlatformSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

@@ -1,29 +1,89 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Premium CS2 Marketplace to browse, buy, and trade Counter-Strike 2 skins, knives, gloves, and collector-grade items." />
-    <meta name="keywords" content="CS2, Counter-Strike 2, skins, knives, gloves, marketplace, skin trading, rare skins, premium inventory" />
-    <meta name="theme-color" content="#120d07" />
-    <meta name="robots" content="index,follow" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="CS2 Marketplace - Premium Skin Trading" />
-    <meta property="og:description" content="Explore premium CS2 skins, knives, gloves, and elite trading deals in one polished marketplace." />
-    <meta property="og:site_name" content="CS2 Marketplace" />
-    <meta property="og:image" content="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="CS2 Marketplace - Premium Skin Trading" />
-    <meta name="twitter:description" content="Buy, trade, and collect high-end Counter-Strike 2 skins in a premium marketplace." />
-    <meta name="twitter:image" content="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" />
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-    <link rel="preconnect" href="https://cdn.cloudflare.steamstatic.com" />
-    <title>CS2 Marketplace - Premium Skin Trading</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS2 Marketplace</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-crosshairs"></i>
+                <span>CS2 Marketplace</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="products.html">Browse</a></li>
+                <li><a href="account.html">Account</a></li>
+                <li><a href="#"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">0</span></a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-background"></div>
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title">Premium CS2 Marketplace</h1>
+            <p class="hero-subtitle">Browse rare skins, knives and gloves</p>
+            <p class="hero-description">
+                Counter-Strike 2 uchun premium skinlarni ko‘ring, taqqoslang va savdo qiling.
+            </p>
+            <div class="hero-buttons">
+                <a href="products.html" class="btn btn-primary">Browse Items</a>
+                <a href="account.html" class="btn btn-secondary">Open Account</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">Items</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">25K+</span>
+                    <span class="stat-label">Traders</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">$2M+</span>
+                    <span class="stat-label">Monthly Volume</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Popular Sections</h2>
+                <p>Eski sayt ko‘rinishi qaytarildi</p>
+            </div>
+            <div class="categories-grid">
+                <a href="products.html" class="category-card">
+                    <i class="fas fa-gun"></i>
+                    <h3>Browse Items</h3>
+                    <p>All marketplace skins</p>
+                </a>
+                <a href="product-detail.html" class="category-card">
+                    <i class="fas fa-star"></i>
+                    <h3>Featured Skin</h3>
+                    <p>Open product detail page</p>
+                </a>
+                <a href="account.html" class="category-card">
+                    <i class="fas fa-user"></i>
+                    <h3>Account</h3>
+                    <p>Inventory and account panels</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
 </html>
