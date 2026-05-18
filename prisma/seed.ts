@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, TransactionType } from "@prisma/client";
 import {
   mockFavorites,
   mockInventory,
@@ -10,6 +10,7 @@ import {
   mockUsers,
   platformSettings,
 } from "../lib/data/mock-store";
+import { mockCases, mockCaseItemsData } from "../lib/data/mock-cases";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +20,8 @@ async function main() {
   await prisma.transaction.deleteMany();
   await prisma.notification.deleteMany();
   await prisma.listing.deleteMany();
+  await prisma.caseItem.deleteMany();
+  await prisma.case.deleteMany();
 
   await prisma.platformSetting.upsert({
     where: { key: "commissionRate" },
@@ -48,6 +51,79 @@ async function main() {
       update: skin,
       create: skin,
     });
+  }
+
+  // Seed case item skins
+  for (const caseData of Object.values(mockCaseItemsData)) {
+    for (const item of caseData) {
+      await prisma.skin.upsert({
+        where: { id: item.skinId },
+        update: {
+          name: item.name,
+          category: item.category,
+          rarity: item.rarity,
+          exterior: "Factory New",
+          wear: 0.05,
+          price: item.price,
+          image: item.image,
+          finishStyle: "Standard",
+          description: "Case drop skin",
+          collection: "Case Collection",
+          liquidityScore: 50,
+          slug: item.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+        },
+        create: {
+          id: item.skinId,
+          slug: item.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+          name: item.name,
+          category: item.category,
+          rarity: item.rarity,
+          exterior: "Factory New",
+          wear: 0.05,
+          price: item.price,
+          image: item.image,
+          finishStyle: "Standard",
+          description: "Case drop skin",
+          collection: "Case Collection",
+          liquidityScore: 50,
+        },
+      });
+    }
+  }
+
+  // Seed Cases
+  for (const c of mockCases) {
+    await prisma.case.upsert({
+      where: { slug: c.slug },
+      update: {
+        name: c.name,
+        price: c.price,
+        image: c.image,
+        isActive: c.isActive,
+      },
+      create: {
+        id: c.id,
+        slug: c.slug,
+        name: c.name,
+        price: c.price,
+        image: c.image,
+        isActive: c.isActive,
+      },
+    });
+
+    const caseItems = mockCaseItemsData[c.slug as keyof typeof mockCaseItemsData];
+    if (caseItems) {
+      for (const item of caseItems) {
+        await prisma.caseItem.create({
+          data: {
+            caseId: c.id,
+            skinId: item.skinId,
+            rarity: item.rarity,
+            dropRate: item.dropRate,
+          },
+        });
+      }
+    }
   }
 
   const seller = await prisma.user.findFirstOrThrow({
@@ -102,7 +178,7 @@ async function main() {
     await prisma.transaction.create({
       data: {
         userId: user.id,
-        type: transaction.type,
+        type: transaction.type as TransactionType,
         amount: transaction.amount,
         description: transaction.description,
         createdAt: transaction.createdAt,

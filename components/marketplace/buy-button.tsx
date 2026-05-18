@@ -30,7 +30,7 @@ export function BuyButton({ listingId }: { listingId: string }) {
           window.location.reload();
         })
       }
-      className="inline-flex items-center justify-center rounded-full bg-glow px-4 py-3 text-sm font-semibold text-slate-950 transition hover:scale-[1.01] disabled:opacity-70"
+      className="btn-premium-solid inline-flex items-center justify-center rounded-full px-6 py-3 text-xs uppercase tracking-widest transition-all disabled:opacity-50"
     >
       {pending ? t("buy.processing") : t("buy.instant")}
     </button>

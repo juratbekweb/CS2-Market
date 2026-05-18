@@ -3,12 +3,22 @@ import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import fs from 'fs/promises'
+import { createServer } from 'http'
+import { Server } from 'socket.io'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const DATA_DIR = path.join(__dirname, 'data')
 
 const app = express()
+const httpServer = createServer(app)
+const io = new Server(httpServer, {
+  cors: {
+    origin: '*', // In production, restrict to your frontend domain
+    methods: ['GET', 'POST'],
+  },
+})
+
 const PORT = process.env.PORT || 5000
 const HOST = process.env.HOST || '0.0.0.0'
 const ADMIN_KEY = process.env.ADMIN_KEY || 'admin123'
@@ -47,7 +57,6 @@ const readJson = async (name) => {
     return JSON.parse(raw)
   } catch (err) {
     if (err.code === 'ENOENT') {
-      // If file doesn't exist yet, initialize it
       await writeJson(name, [])
       return []
     }
@@ -60,11 +69,38 @@ const writeJson = async (name, data) => {
   await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf-8')
 }
 
+// ─── SOCKET.IO EVENTS ─────────────────────────────────
+
+io.on('connection', (socket) => {
+  console.log('Client connected to real-time feed:', socket.id)
+  
+  // Emit online users count to all clients
+  io.emit('online_users', io.engine.clientsCount)
+  
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id)
+    // Emit updated count
+    io.emit('online_users', io.engine.clientsCount)
+  })
+})
+
+// Endpoint for Next.js app to broadcast events
+app.post('/api/broadcast', (req, res) => {
+  const { event, data } = req.body
+  if (!event) return res.status(400).json({ error: 'Event name required' })
+  
+  io.emit(event, data)
+  res.json({ success: true })
+})
+
+// ─── EXISTING API ROUTES ──────────────────────────────
+
 app.get('/api/health', (req, res) => {
   res.json({
     ok: true,
     service: 'cs2-marketplace-server',
     timestamp: new Date().toISOString(),
+    clients: io.engine.clientsCount,
   })
 })
 
@@ -172,7 +208,6 @@ app.post('/api/checkout', async (req, res) => {
     const cart = await readJson('cart.json')
     const total = cart.reduce((sum, item) => sum + (item.price || 0), 0)
 
-    // Simulate a simple order confirmation
     const order = {
       orderId: `ORD-${Date.now()}`,
       total,
@@ -180,12 +215,9 @@ app.post('/api/checkout', async (req, res) => {
       purchasedAt: new Date().toISOString(),
     }
 
-    // Persist order history
     const orders = await readJson('orders.json')
     orders.unshift(order)
     await writeJson('orders.json', orders)
-
-    // Clear cart after checkout
     await writeJson('cart.json', [])
 
     res.json({ success: true, order })
@@ -307,9 +339,8 @@ const start = async () => {
     })
   }
 
-  app.listen(PORT, HOST, () => {
-    console.log(`CS2 Marketplace API running on http://localhost:${PORT}`)
-    console.log(`CS2 Marketplace API available on your network at http://<your-pc-ip>:${PORT}`)
+  httpServer.listen(PORT, HOST, () => {
+    console.log(`CS2 Marketplace API & Socket.io running on http://localhost:${PORT}`)
   })
 }
 

@@ -1,13 +1,46 @@
 {
-  "name": "cs2-market-root",
+  "name": "cs2-market-startup",
+  "version": "2.0.0",
   "private": true,
-  "version": "1.0.0",
   "scripts": {
-    "dev": "npm --prefix CS2-Market run dev",
-    "build": "npm --prefix CS2-Market run build",
-    "preview": "npm --prefix CS2-Market run preview",
-    "lint": "npm --prefix CS2-Market run lint",
-    "server": "npm --prefix CS2-Market run server",
-    "server:dev": "npm --prefix CS2-Market run server:dev"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "server": "node server/index.js",
+    "server:dev": "npx nodemon server/index.js"
+  },
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.7.4",
+    "@prisma/client": "^5.18.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^0.511.0",
+    "next": "^15.1.6",
+    "next-auth": "^5.0.0-beta.25",
+    "openid": "^2.0.14",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^3.1.2",
+    "socket.io-client": "^4.8.3",
+    "tailwind-merge": "^2.5.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.1.6",
+    "postcss": "^8.4.49",
+    "prisma": "^5.18.0",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.2"
   }
 }

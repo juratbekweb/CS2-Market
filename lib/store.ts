@@ -52,13 +52,25 @@ export async function getMarketplaceData(sessionUser?: SessionUser) {
         const seller = mockUsers.find((user) => user.id === listing.sellerId)!;
         return {
           id: listing.id,
-          askPrice: listing.askPrice,
+          askPrice: Number(listing.askPrice),
           createdAt: listing.createdAt.toISOString(),
           sellerName: seller.name,
           sellerSteamConnected: Boolean(seller.steamId),
           status: listing.status,
           skin: {
-            ...skin,
+            id: skin.id,
+            slug: skin.slug,
+            name: skin.name,
+            category: skin.category,
+            rarity: skin.rarity,
+            exterior: skin.exterior,
+            wear: skin.wear,
+            price: Number(skin.price),
+            image: skin.image,
+            finishStyle: skin.finishStyle,
+            description: skin.description,
+            collection: skin.collection,
+            liquidityScore: skin.liquidityScore,
             favorite: favorites.has(skin.id),
           },
         };
@@ -114,12 +126,41 @@ export async function getSkinBySlug(slug: string, sessionUser?: SessionUser) {
       .sort((a, b) => a.askPrice - b.askPrice)[0];
 
     return {
-      ...skin,
+      id: skin.id,
+      slug: skin.slug,
+      name: skin.name,
+      category: skin.category,
+      rarity: skin.rarity,
+      exterior: skin.exterior,
+      wear: skin.wear,
+      price: Number(skin.price),
+      image: skin.image,
+      finishStyle: skin.finishStyle,
+      description: skin.description,
+      collection: skin.collection,
+      liquidityScore: skin.liquidityScore,
       favorite,
       activeListingId: activeListing?.id ?? null,
-      activeAskPrice: activeListing?.askPrice ?? skin.price,
+      activeAskPrice: activeListing?.askPrice ?? Number(skin.price),
       history: mockPriceHistory[slug] ?? [],
-      related: mockSkins.filter((item) => item.slug !== slug).slice(0, 4),
+      related: mockSkins
+        .filter((item) => item.slug !== slug)
+        .slice(0, 4)
+        .map((item) => ({
+          id: item.id,
+          slug: item.slug,
+          name: item.name,
+          category: item.category,
+          rarity: item.rarity,
+          exterior: item.exterior,
+          wear: item.wear,
+          price: Number(item.price),
+          image: item.image,
+          finishStyle: item.finishStyle,
+          description: item.description,
+          collection: item.collection,
+          liquidityScore: item.liquidityScore,
+        })),
     };
   }
 
@@ -193,10 +234,20 @@ export async function getDashboardSnapshot(sessionUser?: SessionUser) {
       .reduce((sum, item) => sum + Number(item.amount), 0);
 
     return {
-      user,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+        avatar: user.avatar,
+        steamId: user.steamId,
+        balance: Number(user.balance),
+        totalProfit: Number(user.totalProfit),
+        role: user.role,
+      },
       kpis: [
         { label: "Wallet balance", value: currency(Number(user.balance)), helper: "Instant purchasing power" },
-        { label: "Portfolio value", value: currency(inventory.reduce((sum, item) => sum + item.currentValue, 0)), helper: "Marked to active bids" },
+        { label: "Portfolio value", value: currency(inventory.reduce((sum, item) => sum + Number(item.currentValue), 0)), helper: "Marked to active bids" },
         { label: "Realized profit", value: currency(Number(user.totalProfit)), helper: `${watchlist} items on watchlist` },
         { label: "Trade volume", value: currency(realized), helper: "30-day completed sales" },
       ],
@@ -213,7 +264,17 @@ export async function getDashboardSnapshot(sessionUser?: SessionUser) {
   ]);
 
   return {
-    user,
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      image: user.image,
+      avatar: user.avatar,
+      steamId: user.steamId,
+      balance: Number(user.balance),
+      totalProfit: Number(user.totalProfit),
+      role: user.role,
+    },
     kpis: [
       { label: "Wallet balance", value: currency(Number(user.balance)), helper: "Instant purchasing power" },
       { label: "Portfolio value", value: currency(inventory.reduce((sum, item) => sum + Number(item.currentValue), 0)), helper: "Marked to market" },
@@ -260,7 +321,17 @@ export async function getWalletSnapshot(sessionUser?: SessionUser) {
 
   if (useMock) {
     return {
-      user,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+        avatar: user.avatar,
+        steamId: user.steamId,
+        balance: Number(user.balance),
+        totalProfit: Number(user.totalProfit),
+        role: user.role,
+      },
       transactions: mockTransactions.filter((item) => item.userId === user.id),
       trend: mockBalanceTrend,
     };
@@ -272,7 +343,17 @@ export async function getWalletSnapshot(sessionUser?: SessionUser) {
   });
 
   return {
-    user,
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      image: user.image,
+      avatar: user.avatar,
+      steamId: user.steamId,
+      balance: Number(user.balance),
+      totalProfit: Number(user.totalProfit),
+      role: user.role,
+    },
     transactions: transactions.map((item) => ({ ...item, amount: Number(item.amount) })),
     trend: [],
   };
@@ -295,7 +376,12 @@ export async function getAdminSnapshot() {
     getCommissionRate(),
   ]);
 
-  return { users, listings, transactions, commissionRate };
+  return { 
+    users, 
+    listings: listings.map(l => ({ ...l, askPrice: Number(l.askPrice) })), 
+    transactions: transactions.map(t => ({ ...t, amount: Number(t.amount) })), 
+    commissionRate 
+  };
 }
 
 export async function toggleFavorite(sessionUser: SessionUser, skinId: string) {

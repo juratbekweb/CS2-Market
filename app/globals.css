@@ -4,6 +4,14 @@
 
 :root {
   color-scheme: dark;
+  --bg-deep-black: #020204;
+  --neon-purple: #a100ff;
+  --electric-blue: #00f0ff;
+  --gold-accent: #ffaa00;
+  --emerald-glow: #00ff87;
+  --soft-red: #ff2a5f;
+  --glass-bg: rgba(5, 5, 10, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.05);
 }
 
 html {
@@ -12,22 +20,148 @@ html {
 
 body {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(89, 242, 196, 0.14), transparent 25%),
-    radial-gradient(circle at top right, rgba(255, 142, 83, 0.15), transparent 20%),
-    linear-gradient(180deg, #05070f 0%, #060816 42%, #0b1020 100%);
-  color: #f7fbff;
-  font-family: var(--font-body), sans-serif;
+  background-color: var(--bg-deep-black);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(161, 0, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(0, 255, 135, 0.02) 0%, transparent 70%);
+  background-attachment: fixed;
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
 
-.font-heading {
-  font-family: var(--font-heading), sans-serif;
+/* ─── Ultra-Premium Glassmorphism ──────────────────────── */
+.premium-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.hero-grid {
-  background-size: auto, 38px 38px, 38px 38px;
+.premium-glass:hover {
+  border-color: rgba(0, 240, 255, 0.2);
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
-::selection {
-  background: rgba(89, 242, 196, 0.3);
+/* ─── Fantasy Cyberpunk Gradients ──────────────────────── */
+.bg-gradient-purple-blue {
+  background: linear-gradient(135deg, var(--neon-purple) 0%, var(--electric-blue) 100%);
+}
+
+.bg-gradient-gold-red {
+  background: linear-gradient(135deg, var(--gold-accent) 0%, var(--soft-red) 100%);
+}
+
+.bg-gradient-emerald-blue {
+  background: linear-gradient(135deg, var(--emerald-glow) 0%, var(--electric-blue) 100%);
+}
+
+/* ─── Neon Ambient Lighting & Glows ──────────────────────── */
+.glow-purple {
+  filter: drop-shadow(0 0 15px rgba(161, 0, 255, 0.6));
+}
+
+.glow-blue {
+  filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.6));
+}
+
+.glow-gold {
+  filter: drop-shadow(0 0 15px rgba(255, 170, 0, 0.6));
+}
+
+.text-glow-purple {
+  text-shadow: 0 0 10px rgba(161, 0, 255, 0.8), 0 0 20px rgba(161, 0, 255, 0.4);
+}
+
+.text-glow-blue {
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.8), 0 0 20px rgba(0, 240, 255, 0.4);
+}
+
+/* ─── Animated Borders ──────────────────────── */
+.animated-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    transparent,
+    var(--electric-blue),
+    var(--neon-purple),
+    transparent 30%
+  );
+  animation: rotate 4s linear infinite;
+  z-index: 0;
+}
+
+.animated-border-content {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-deep-black);
+  margin: 1px; /* Border width */
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── Floating Elements ──────────────────────── */
+.floating-element {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* ─── Premium Scrollbar ──────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--neon-purple), var(--electric-blue));
+  border-radius: 5px;
+  border: 2px solid var(--bg-deep-black);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(var(--electric-blue), var(--emerald-glow));
+}
+
+/* ─── Dynamic Reflections ──────────────────────── */
+.reflective-glow {
+  position: relative;
+}
+
+.reflective-glow::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ─── Custom Icons Glow ──────────────────────── */
+.icon-glow svg {
+  filter: drop-shadow(0 0 5px currentColor);
 }

@@ -9,7 +9,7 @@ export async function GET() {
   }
 
   const realm = process.env.STEAM_REALM || process.env.NEXTAUTH_URL || "http://localhost:3000";
-  const returnUrl = process.env.STEAM_RETURN_URL || `${realm}/api/steam/callback`;
+  const returnUrl = `${realm}/api/steam/callback?intent=connect`;
   const relyingParty = buildSteamClient(returnUrl, realm);
 
   const redirectUrl = await new Promise<string>((resolve, reject) => {

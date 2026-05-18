@@ -23,25 +23,27 @@ export function UserMenu({ session }: { session: Session | null }) {
   }
 
   return (
-    <div className="flex items-center gap-3">
-      <div className="hidden text-right sm:block">
-        <div className="text-sm text-white">{session.user.name}</div>
-        <div className="text-xs text-muted">{session.user.email}</div>
+    <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-full pr-1 pl-4 py-1">
+      <div className="hidden text-right sm:block mr-1">
+        <div className="text-[13px] font-bold text-white leading-tight">{session.user.name}</div>
+        <div className="text-[10px] text-muted leading-tight">{session.user.email}</div>
       </div>
-      <Image
-        src={session.user.image || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=120&q=80"}
-        alt={session.user.name || t("user.avatarAlt")}
-        width={40}
-        height={40}
-        className="rounded-full border border-white/20 object-cover"
-      />
+      <Link href="/dashboard" className="transition-transform hover:scale-105">
+        <Image
+          src={session.user.image || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=120&q=80"}
+          alt={session.user.name || t("user.avatarAlt")}
+          width={36}
+          height={36}
+          className="rounded-full border border-white/20 object-cover"
+        />
+      </Link>
       <button
         type="button"
         onClick={() => signOut({ callbackUrl: "/" })}
-        className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 transition hover:bg-white/10"
+        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-slate-400 transition-colors hover:bg-red-500/20 hover:text-red-400"
+        title={t("user.logout")}
       >
         <LogOut className="size-4" />
-        {t("user.logout")}
       </button>
     </div>
   );
