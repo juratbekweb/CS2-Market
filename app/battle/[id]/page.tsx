@@ -70,7 +70,11 @@ export default function BattleRoomPage() {
           return {
             ...p,
             totalWon: p.totalWon + wonValue,
-            items: [...p.items, { round: currentRound, value: wonValue }]
+            items: [...p.items, {
+              id: `${p.id}-round-${currentRound}`,
+              name: `Round ${currentRound}`,
+              value: wonValue,
+            }]
           };
         }));
 

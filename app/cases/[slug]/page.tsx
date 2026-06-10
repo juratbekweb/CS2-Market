@@ -198,7 +198,7 @@ export default function CaseOpeningPage() {
       {/* Case Contents Grid */}
       <div className="bg-[#05050a] border border-white/5 rounded-3xl p-8">
         <h2 className="text-sm font-heading font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2">
-          <Sparkles className="size-4 text-[#ffaa00]" /> What's Inside
+          <Sparkles className="size-4 text-[#ffaa00]" /> What&apos;s Inside
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {MOCK_ITEMS.map((item, i) => {

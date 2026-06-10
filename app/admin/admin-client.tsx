@@ -12,11 +12,17 @@ type Tab = "dashboard" | "users" | "listings" | "transactions" | "cases" | "with
 
 interface AdminUser {
   id: string;
-  name: string;
-  email: string;
-  balance: number;
-  status: string;
-  joined: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  avatar?: string | null;
+  steamId?: string | null;
+  balance?: unknown;
+  totalProfit?: unknown;
+  role?: string | null;
+  isBlocked?: boolean | null;
+  status?: string | null;
+  joined?: string | null;
 }
 
 interface AdminWithdrawal {
@@ -35,6 +41,9 @@ interface AdminSnapshot {
     pendingWithdrawals: number;
   };
   users?: AdminUser[];
+  listings?: unknown[];
+  transactions?: unknown[];
+  commissionRate?: number;
   withdrawals?: AdminWithdrawal[];
 }
 
@@ -60,7 +69,7 @@ export function AdminDashboardClient({ data }: { data: AdminSnapshot | null }) {
   return (
     <div className="flex min-h-screen bg-[#020204]">
       {/* Sidebar */}
-      <div className="w-64 bg-[#05050a] border-r border-white/5 flex flex-col hidden md:flex shrink-0">
+      <div className="w-64 bg-[#05050a] border-r border-white/5 hidden md:flex md:flex-col shrink-0">
         <div className="p-6 border-b border-white/5">
           <div className="font-heading text-2xl font-extrabold text-white flex items-center gap-2">
             <ShieldCheck className="size-6 text-[#ff2a5f]" /> ADMIN
@@ -183,32 +192,38 @@ export function AdminDashboardClient({ data }: { data: AdminSnapshot | null }) {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
-                      {users.map((u: AdminUser) => (
-                        <tr key={u.id} className="hover:bg-white/5 transition-colors">
-                          <td className="px-6 py-4">
-                            <div className="flex flex-col">
-                              <span className="font-bold text-white">{u.name}</span>
-                              <span className="text-xs text-slate-500">{u.email}</span>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 font-bold text-[#00ff87]">${u.balance.toFixed(2)}</td>
-                          <td className="px-6 py-4 text-slate-400">{new Date(u.joined).toLocaleDateString()}</td>
-                          <td className="px-6 py-4">
-                            {u.status === "ACTIVE" ? (
+                      {users.map((u: AdminUser) => {
+                        const balance = Number(u.balance ?? 0);
+                        const status = u.status ?? (u.isBlocked ? "BLOCKED" : "ACTIVE");
+                        const joined = u.joined ? new Date(u.joined).toLocaleDateString() : "N/A";
+
+                        return (
+                          <tr key={u.id} className="hover:bg-white/5 transition-colors">
+                            <td className="px-6 py-4">
+                              <div className="flex flex-col">
+                                <span className="font-bold text-white">{u.name}</span>
+                                <span className="text-xs text-slate-500">{u.email}</span>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 font-bold text-[#00ff87]">${balance.toFixed(2)}</td>
+                            <td className="px-6 py-4 text-slate-400">{joined}</td>
+                            <td className="px-6 py-4">
+                              {status === "ACTIVE" ? (
                               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#00ff87]/10 text-[#00ff87] text-[10px] font-heading font-bold uppercase tracking-wider">
                                 <CheckCircle2 className="size-3" /> Active
                               </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#ff2a5f]/10 text-[#ff2a5f] text-[10px] font-heading font-bold uppercase tracking-wider">
-                                <XCircle className="size-3" /> Blocked
-                              </span>
-                            )}
-                          </td>
-                          <td className="px-6 py-4 text-right">
-                            <button className="p-2 text-slate-500 hover:text-white transition-colors"><MoreVertical className="size-4" /></button>
-                          </td>
-                        </tr>
-                      ))}
+                              ) : (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#ff2a5f]/10 text-[#ff2a5f] text-[10px] font-heading font-bold uppercase tracking-wider">
+                                  <XCircle className="size-3" /> Blocked
+                                </span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                              <button className="p-2 text-slate-500 hover:text-white transition-colors"><MoreVertical className="size-4" /></button>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>

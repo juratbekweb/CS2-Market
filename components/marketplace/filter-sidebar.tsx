@@ -56,13 +56,6 @@ export function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
     onFilterChange(filters);
   }, [filters, onFilterChange]);
 
-  const updateArray = (key: "categories" | "rarities" | "exteriors", value: string) => {
-    setFilters(prev => ({
-      ...prev,
-      [key]: prev[key].includes(value) ? prev[key].filter(i => i !== value) : [...prev[key], value]
-    }));
-  };
-
   const clearFilters = () => {
     setFilters({
       categories: [], rarities: [], exteriors: [], minPrice: 0, maxPrice: 10000, sort: "trending", search: ""

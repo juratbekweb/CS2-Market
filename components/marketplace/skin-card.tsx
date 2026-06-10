@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { Heart, ShieldCheck, Crosshair } from "lucide-react";
 import { motion } from "framer-motion";
@@ -93,7 +94,14 @@ export function SkinCard({ listing, onBuy }: SkinCardProps) {
         
         <motion.div animate={isHovered ? { scale: 1.05, rotate: -2 } : { scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 300 }}>
           {skin.image ? (
-            <img src={skin.image} alt={skin.name} className="max-h-full max-w-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" />
+            <Image
+              src={skin.image}
+              alt={skin.name}
+              width={160}
+              height={160}
+              unoptimized
+              className="max-h-full max-w-full object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
+            />
           ) : (
             <div className={`w-20 h-20 rounded-xl ${rarityConfig.bg} opacity-20 flex items-center justify-center`}>
               <Crosshair className="size-8 text-white/50" />

@@ -25,7 +25,7 @@ export default async function MarketplacePage() {
         </p>
       </div>
 
-      <MarketplaceGrid initialListings={listings as any} />
+      <MarketplaceGrid initialListings={listings} />
     </div>
   );
 }
