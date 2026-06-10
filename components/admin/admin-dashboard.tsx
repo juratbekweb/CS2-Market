@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Users, Store, Activity, BarChart3, Settings, ShieldAlert, Package, CreditCard, Menu, X, ArrowUpRight, ArrowDownRight, Zap, Star } from "lucide-react";
+import { Users, Store, Activity, BarChart3, Settings, ShieldAlert, Package, Menu, X, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { AdminControls } from "@/components/admin-controls";
 import { currency } from "@/lib/utils";
 import { translateListingStatus, translateTransactionDescription, translateTransactionType } from "@/lib/i18n";
-import { motion, AnimatePresence } from "framer-motion";
+import type { Locale } from "@/lib/i18n";
 
 interface AdminUser {
   id: string;
@@ -42,7 +42,7 @@ interface AdminData {
 
 type AdminTab = "dashboard" | "users" | "marketplace" | "cases" | "analytics" | "settings";
 
-export function AdminDashboard({ admin, locale }: { admin: AdminData; locale: string }) {
+export function AdminDashboard({ admin, locale }: { admin: AdminData; locale: Locale }) {
   const [activeTab, setActiveTab] = useState<AdminTab>("dashboard");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -137,8 +137,8 @@ export function AdminDashboard({ admin, locale }: { admin: AdminData; locale: st
                   {admin.transactions.slice(0, 5).map((transaction: Transaction) => (
                     <div key={transaction.id} className="flex items-center justify-between bg-[#05050a] border border-[#ffffff]/5 rounded-xl p-3">
                       <div>
-                        <div className="text-xs font-bold text-white">{translateTransactionDescription(locale as any, transaction.description)}</div>
-                        <div className="text-[9px] font-heading font-bold uppercase tracking-wider text-slate-600 mt-0.5">{translateTransactionType(locale as any, transaction.type)}</div>
+                        <div className="text-xs font-bold text-white">{translateTransactionDescription(locale, transaction.description)}</div>
+                        <div className="text-[9px] font-heading font-bold uppercase tracking-wider text-slate-600 mt-0.5">{translateTransactionType(locale, transaction.type)}</div>
                       </div>
                       <div className={`flex items-center gap-1 text-xs font-heading font-bold ${Number(transaction.amount) >= 0 ? "text-[#00ff87]" : "text-[#ff2a5f]"}`}>
                         {Number(transaction.amount) >= 0 ? <ArrowUpRight className="size-3" /> : <ArrowDownRight className="size-3" />}
@@ -157,7 +157,7 @@ export function AdminDashboard({ admin, locale }: { admin: AdminData; locale: st
                     <div key={listing.id} className="flex items-center justify-between bg-[#05050a] border border-[#ffffff]/5 rounded-xl p-3">
                       <div>
                         <div className="text-xs font-bold text-white">{"skinSlug" in listing ? listing.skinSlug : listing.skin?.name}</div>
-                        <div className="text-[9px] font-heading font-bold uppercase tracking-wider text-slate-600 mt-0.5">{translateListingStatus(locale as any, listing.status)}</div>
+                        <div className="text-[9px] font-heading font-bold uppercase tracking-wider text-slate-600 mt-0.5">{translateListingStatus(locale, listing.status)}</div>
                       </div>
                       <div className="text-xs font-heading font-bold text-white">{currency(Number(listing.askPrice))}</div>
                     </div>
@@ -192,7 +192,7 @@ export function AdminDashboard({ admin, locale }: { admin: AdminData; locale: st
                   <div key={listing.id} className="flex items-center justify-between bg-[#05050a] border border-[#ffffff]/5 rounded-xl p-4 hover:border-[#ffffff]/10 transition-colors">
                     <div>
                       <div className="text-xs font-bold text-white">{"skinSlug" in listing ? listing.skinSlug : listing.skin?.name}</div>
-                      <div className="text-[9px] font-heading font-bold uppercase tracking-wider text-slate-600 mt-0.5">Status: {translateListingStatus(locale as any, listing.status)}</div>
+                      <div className="text-[9px] font-heading font-bold uppercase tracking-wider text-slate-600 mt-0.5">Status: {translateListingStatus(locale, listing.status)}</div>
                     </div>
                     <div className="text-right">
                       <div className="text-sm font-heading font-bold text-white">{currency(Number(listing.askPrice))}</div>

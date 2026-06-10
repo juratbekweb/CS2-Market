@@ -1,7 +1,8 @@
+/* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 "use client";
 
 import { useState, useEffect } from "react";
-import { Zap, ArrowUp, Search, Flame, Sparkles, Trophy, RefreshCw } from "lucide-react";
+import { Zap, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface InventoryItem {
@@ -15,7 +16,7 @@ interface UpgradeResult {
   inputItem: { name: string; value: number }; targetItem: { name: string; value: number };
 }
 
-export default function UpgradePageClient({ initialInventory, initialTargets }: { initialInventory: InventoryItem[], initialTargets: TargetSkin[], initialHistory?: unknown[] }) {
+export default function UpgradePageClient({ initialInventory, initialTargets, initialHistory = [] }: { initialInventory: InventoryItem[], initialTargets: TargetSkin[], initialHistory?: unknown[] }) {
   const [selectedInput, setSelectedInput] = useState<InventoryItem | null>(null);
   const [selectedTarget, setSelectedTarget] = useState<TargetSkin | null>(null);
   const [calculation, setCalculation] = useState<{ chance: number; multiplier: number; isValid: boolean; expectedValue: number } | null>(null);
@@ -78,7 +79,7 @@ export default function UpgradePageClient({ initialInventory, initialTargets }: 
     : circumference - (chancePercent / 100) * circumference;
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16">
+    <div className="mx-auto max-w-[1600px] px-4 sm:px-6 py-16">
       {/* Header */}
       <div className="mb-12 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
@@ -215,7 +216,7 @@ export default function UpgradePageClient({ initialInventory, initialTargets }: 
           </div>
           <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
              {initialInventory.filter(item => item.skin.name.toLowerCase().includes(searchInv.toLowerCase())).length > 0 ? (
-               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+             <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3">
                  {initialInventory.filter(item => item.skin.name.toLowerCase().includes(searchInv.toLowerCase())).map(item => (
                    <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} key={item.id} onClick={() => setSelectedInput(item)}
                      className={`group relative flex flex-col items-center rounded-xl bg-[#020204] p-3 transition-all border ${selectedInput?.id === item.id ? 'border-[#00f0ff]/30 bg-[#00f0ff]/5' : 'border-[#ffffff]/5 hover:border-[#ffffff]/10'}`}>
@@ -249,7 +250,7 @@ export default function UpgradePageClient({ initialInventory, initialTargets }: 
             </div>
           </div>
           <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
-             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+             <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3">
                {initialTargets.filter(item => item.name.toLowerCase().includes(searchTarget.toLowerCase())).map(item => (
                  <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} key={item.id} onClick={() => setSelectedTarget(item)}
                    className={`group relative flex flex-col items-center rounded-xl bg-[#020204] p-3 transition-all border ${selectedTarget?.id === item.id ? 'border-[#a100ff]/30 bg-[#a100ff]/5' : 'border-[#ffffff]/5 hover:border-[#ffffff]/10'}`}>
@@ -265,6 +266,76 @@ export default function UpgradePageClient({ initialInventory, initialTargets }: 
                ))}
              </div>
           </div>
+        </div>
+      {/* History Panel */}
+      <div className="mt-8 bg-[#05050a] border border-[#ffffff]/5 overflow-hidden rounded-3xl">
+        <div className="p-5 border-b border-[#ffffff]/5">
+          <h2 className="text-sm font-heading font-bold text-white uppercase tracking-wider">Recent Upgrades</h2>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left min-w-[800px]">
+            <thead>
+              <tr className="bg-[#020204]">
+                <th className="px-6 py-4 text-[10px] font-heading font-bold uppercase tracking-wider text-slate-500">Player</th>
+                <th className="px-6 py-4 text-[10px] font-heading font-bold uppercase tracking-wider text-slate-500">Input</th>
+                <th className="px-6 py-4 text-[10px] font-heading font-bold uppercase tracking-wider text-slate-500">Target</th>
+                <th className="px-6 py-4 text-[10px] font-heading font-bold uppercase tracking-wider text-slate-500 text-center">Chance</th>
+                <th className="px-6 py-4 text-[10px] font-heading font-bold uppercase tracking-wider text-slate-500 text-center">Roll</th>
+                <th className="px-6 py-4 text-[10px] font-heading font-bold uppercase tracking-wider text-slate-500 text-right">Result</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#ffffff]/5">
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+              {(initialHistory as any[]).map((entry, idx) => (
+                <tr key={idx} className="hover:bg-white/5 transition-colors">
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white">
+                        {entry.user.charAt(0)}
+                      </div>
+                      <span className="text-xs font-bold text-white">{entry.user}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <img src={entry.input.image} alt={entry.input.name} className="w-8 h-8 object-contain" />
+                      <div>
+                        <div className="text-xs font-bold text-slate-300 truncate max-w-[150px]">{entry.input.name}</div>
+                        <div className="text-[10px] text-slate-500">${entry.input.price.toFixed(2)}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <img src={entry.target.image} alt={entry.target.name} className="w-8 h-8 object-contain" />
+                      <div>
+                        <div className="text-xs font-bold text-slate-300 truncate max-w-[150px]">{entry.target.name}</div>
+                        <div className="text-[10px] text-[#a100ff]">${entry.target.price.toFixed(2)}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs font-bold text-white">{entry.chance}%</span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="text-xs font-bold text-white">{entry.roll.toFixed(2)}</span>
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    {entry.status === 'win' ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#00f0ff]/10 text-[#00f0ff] text-[10px] font-heading font-bold uppercase">
+                        WIN
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#ff2a5f]/10 text-[#ff2a5f] text-[10px] font-heading font-bold uppercase">
+                        LOSE
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         </div>
       </div>
 

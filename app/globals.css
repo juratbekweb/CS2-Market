@@ -5,6 +5,7 @@
 :root {
   color-scheme: dark;
   --bg-deep-black: #020204;
+  --bg-navy: #05050a;
   --neon-purple: #a100ff;
   --electric-blue: #00f0ff;
   --gold-accent: #ffaa00;
@@ -12,6 +13,30 @@
   --soft-red: #ff2a5f;
   --glass-bg: rgba(5, 5, 10, 0.65);
   --glass-border: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="gold"] {
+  --bg-deep-black: #0a0805;
+  --bg-navy: #15110a;
+  --neon-purple: #cda153; 
+  --electric-blue: #ffd700; 
+  --gold-accent: #ffa500;
+  --emerald-glow: #e6c200;
+  --soft-red: #d15638;
+  --glass-bg: rgba(20, 15, 5, 0.75);
+  --glass-border: rgba(255, 215, 0, 0.15);
+}
+
+[data-theme="ruby"] {
+  --bg-deep-black: #080203;
+  --bg-navy: #140507;
+  --neon-purple: #900c3f; 
+  --electric-blue: #ff3366; 
+  --gold-accent: #ff5733;
+  --emerald-glow: #c70039;
+  --soft-red: #581845;
+  --glass-bg: rgba(15, 5, 5, 0.75);
+  --glass-border: rgba(255, 51, 102, 0.15);
 }
 
 html {
@@ -157,6 +182,7 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+  border-radius: inherit;
   pointer-events: none;
   z-index: 2;
 }

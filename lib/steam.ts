@@ -26,17 +26,39 @@ export async function fetchSteamInventory(steamId: string) {
       return [];
     }
     
+interface SteamAsset {
+  assetid: string;
+  classid: string;
+  instanceid: string;
+}
+
+interface SteamTag {
+  category: string;
+  localized_tag_name: string;
+}
+
+interface SteamDescription {
+  classid: string;
+  instanceid: string;
+  name?: string;
+  market_hash_name?: string;
+  icon_url?: string;
+  tradable: number;
+  marketable: number;
+  tags?: SteamTag[];
+}
+
     // Map assets to descriptions
-    const inventory = data.assets.map((asset: any) => {
+    const inventory = data.assets.map((asset: SteamAsset) => {
       const description = data.descriptions.find(
-        (desc: any) => desc.classid === asset.classid && desc.instanceid === asset.instanceid
+        (desc: SteamDescription) => desc.classid === asset.classid && desc.instanceid === asset.instanceid
       );
       
       // Extract tags (rarity, type, exterior)
       const tags = description?.tags || [];
-      const rarity = tags.find((tag: any) => tag.category === "Rarity")?.localized_tag_name;
-      const exterior = tags.find((tag: any) => tag.category === "Exterior")?.localized_tag_name;
-      const type = tags.find((tag: any) => tag.category === "Type")?.localized_tag_name;
+      const rarity = tags.find((tag: SteamTag) => tag.category === "Rarity")?.localized_tag_name;
+      const exterior = tags.find((tag: SteamTag) => tag.category === "Exterior")?.localized_tag_name;
+      const type = tags.find((tag: SteamTag) => tag.category === "Type")?.localized_tag_name;
       
       return {
         assetId: asset.assetid,

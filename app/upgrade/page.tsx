@@ -7,6 +7,8 @@ export const metadata = {
   description: "Upgrade your skins",
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function UpgradePage() {
   const session = await auth();
 
@@ -127,8 +129,11 @@ export default async function UpgradePage() {
 
   return (
     <UpgradePageClient 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       initialInventory={inventoryItems as any} 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       initialTargets={targetSkins as any}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       initialHistory={formattedHistory as any}
     />
   );

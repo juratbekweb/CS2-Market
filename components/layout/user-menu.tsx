@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { LogIn, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import type { Session } from "next-auth";
 import { useLocale } from "@/components/providers/locale-provider";
@@ -11,15 +11,7 @@ export function UserMenu({ session }: { session: Session | null }) {
   const { t } = useLocale();
 
   if (!session?.user) {
-    return (
-      <Link
-        href="/login"
-        className="inline-flex items-center gap-2 rounded-full border border-glow/30 bg-glow/10 px-4 py-2 text-sm font-medium text-glow transition hover:bg-glow/20"
-      >
-        <LogIn className="size-4" />
-        {t("user.login")}
-      </Link>
-    );
+    return null;
   }
 
   return (

@@ -1,179 +1,338 @@
 "use client";
 
 import { useState } from "react";
-import { Swords, Trophy, Play, Plus, Zap, Star, Shield } from "lucide-react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { Sword, Plus, Users, Search, ShieldAlert, CheckCircle2, Package, X } from "lucide-react";
 
-interface BattleRoom {
+interface Case {
   id: string;
-  creator: string;
-  cases: { id: string; name: string; image: string; price: number }[];
-  players: number;
-  maxPlayers: number;
-  totalCost: number;
-  status: "waiting" | "active" | "finished";
-  mode: "1v1" | "1v1v1" | "2v2";
+  name: string;
+  image: string;
+  price: number;
 }
 
-const MOCK_CASES = [
-  { id: "case1", name: "Phantom", image: "/cases/phantom.png", price: 4.99 },
-  { id: "case2", name: "Dragon", image: "/cases/dragon.png", price: 9.99 },
+interface Player {
+  id: string;
+  name: string;
+  avatar: string;
+}
+
+interface Battle {
+  id: string;
+  creator: Player;
+  players: Player[];
+  maxPlayers: number;
+  cases: Case[];
+  totalValue: number;
+  status: "WAITING" | "IN_PROGRESS" | "COMPLETED";
+  winnerId?: string;
+  createdAt: string;
+}
+
+const MOCK_CASES: Case[] = [
+  { id: "c1", name: "Neon Overdrive", image: "", price: 29.99 },
+  { id: "c2", name: "Emerald Fury", image: "", price: 49.99 },
+  { id: "c3", name: "Golden Heist", image: "", price: 99.99 },
+  { id: "c4", name: "Budget Blaster", image: "", price: 5.99 },
+  { id: "c5", name: "Phantom Collection", image: "", price: 15.50 },
 ];
 
-const MOCK_BATTLES: BattleRoom[] = [
-  { id: "b1", creator: "LCDreamer", cases: [MOCK_CASES[0], MOCK_CASES[0], MOCK_CASES[1]], players: 1, maxPlayers: 2, totalCost: 19.97, status: "waiting", mode: "1v1" },
-  { id: "b2", creator: "ProSniper", cases: [MOCK_CASES[1], MOCK_CASES[1]], players: 2, maxPlayers: 3, totalCost: 19.98, status: "waiting", mode: "1v1v1" },
-  { id: "b3", creator: "NinjaX", cases: [MOCK_CASES[0], MOCK_CASES[0], MOCK_CASES[1], MOCK_CASES[1]], players: 2, maxPlayers: 2, totalCost: 29.96, status: "active", mode: "1v1" },
-  { id: "b4", creator: "TeamAlpha", cases: [MOCK_CASES[1], MOCK_CASES[1]], players: 3, maxPlayers: 4, totalCost: 19.98, status: "waiting", mode: "2v2" },
+const MOCK_BATTLES: Battle[] = [
+  {
+    id: "b1",
+    creator: { id: "p1", name: "DragonSlayer99", avatar: "D" },
+    players: [{ id: "p1", name: "DragonSlayer99", avatar: "D" }],
+    maxPlayers: 2,
+    cases: [MOCK_CASES[0], MOCK_CASES[1], MOCK_CASES[0]],
+    totalValue: 109.97,
+    status: "WAITING",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "b2",
+    creator: { id: "p2", name: "NightHunter", avatar: "N" },
+    players: [{ id: "p2", name: "NightHunter", avatar: "N" }, { id: "p3", name: "AWP_Wizard", avatar: "A" }],
+    maxPlayers: 4,
+    cases: [MOCK_CASES[2], MOCK_CASES[2]],
+    totalValue: 199.98,
+    status: "WAITING",
+    createdAt: new Date(Date.now() - 50000).toISOString(),
+  },
+  {
+    id: "b3",
+    creator: { id: "p4", name: "SkinGod", avatar: "S" },
+    players: [
+      { id: "p4", name: "SkinGod", avatar: "S" },
+      { id: "p5", name: "TradeMaster", avatar: "T" },
+    ],
+    maxPlayers: 2,
+    cases: [MOCK_CASES[4], MOCK_CASES[4], MOCK_CASES[4], MOCK_CASES[4], MOCK_CASES[4]],
+    totalValue: 77.50,
+    status: "IN_PROGRESS",
+    createdAt: new Date(Date.now() - 120000).toISOString(),
+  },
+  {
+    id: "b4",
+    creator: { id: "p6", name: "Lucky7", avatar: "L" },
+    players: [
+      { id: "p6", name: "Lucky7", avatar: "L" },
+      { id: "p7", name: "GamerX", avatar: "G" },
+      { id: "p8", name: "SniperPro", avatar: "S" },
+      { id: "p9", name: "CrateOpener", avatar: "C" },
+    ],
+    maxPlayers: 4,
+    cases: [MOCK_CASES[3], MOCK_CASES[0], MOCK_CASES[1]],
+    totalValue: 85.97,
+    status: "COMPLETED",
+    winnerId: "p8",
+    createdAt: new Date(Date.now() - 3600000).toISOString(),
+  },
 ];
 
-export default function BattlePage() {
+export default function BattlesPage() {
   const [activeTab, setActiveTab] = useState<"active" | "history">("active");
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const filteredBattles = MOCK_BATTLES.filter(b => {
+    if (activeTab === "active" && b.status === "COMPLETED") return false;
+    if (activeTab === "history" && b.status !== "COMPLETED") return false;
+    if (search && !b.creator.name.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16">
+    <div className="mx-auto max-w-[1600px] px-4 sm:px-6 py-16">
       {/* Header */}
-      <div className="mb-16 flex flex-col items-center justify-between gap-6 md:flex-row relative z-10">
+      <div className="mb-12 flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#ff2a5f]/30 bg-[#ff2a5f]/10 px-6 py-2 text-xs font-heading font-bold uppercase tracking-wider text-[#ff2a5f] backdrop-blur-md"
-          >
-            <Swords className="size-4" /> PvP Arenas
-          </motion.div>
-          <motion.h1 
-            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
-            className="font-heading text-6xl uppercase tracking-tighter text-white font-extrabold mb-4"
-          >
-            CASE <span className="bg-gradient-to-r from-[#ff2a5f] to-[#ffaa00] bg-clip-text text-transparent">BATTLES</span>
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-            className="text-lg text-slate-400 font-medium max-w-2xl"
-          >
-            Winner takes all. Team up or go solo in high-stakes case unboxing battles.
-          </motion.p>
+          <div className="inline-flex items-center gap-2 text-[#ff2a5f] mb-2 font-heading font-bold tracking-wider text-xs">
+            <Sword className="size-4" /> BATTLE ARENA
+          </div>
+          <h1 className="font-heading text-4xl sm:text-5xl font-extrabold uppercase text-white tracking-tight">
+            CASE BATTLES
+          </h1>
+          <p className="mt-2 text-slate-400 font-medium max-w-xl">
+            Go head-to-head against other players. The player who unboxes the highest total value takes everything!
+          </p>
         </div>
 
-        <motion.button 
-          initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}
-          whileHover={{ scale: 1.05 }}
-          className="px-8 py-4 bg-gradient-to-r from-[#ff2a5f] to-[#ffaa00] rounded-xl text-xs font-heading font-bold uppercase tracking-wider text-white glow-purple flex items-center gap-2"
+        <button 
+          onClick={() => setShowCreateModal(true)}
+          className="shrink-0 flex items-center gap-2 px-6 py-3 rounded-xl font-heading font-bold uppercase tracking-wider text-sm transition-all bg-gradient-to-r from-[#ff2a5f] to-[#ffaa00] text-white hover:scale-105 shadow-[0_0_20px_rgba(255,42,95,0.3)] glow-purple"
         >
-          <Plus className="size-4" /> Create Battle
-        </motion.button>
-      </div>
-
-      {/* Tabs */}
-      <div className="mb-10 flex gap-4 p-1 bg-[#05050a] border border-[#ffffff]/5 rounded-2xl w-max relative z-10">
-        <button
-          onClick={() => setActiveTab("active")}
-          className={`px-6 py-3 rounded-xl text-xs font-heading font-bold uppercase tracking-wider transition-all ${activeTab === "active" ? 'bg-[#020204] text-white border border-[#ffffff]/5' : 'text-slate-500 hover:text-white'}`}
-        >
-          Live Battles
-        </button>
-        <button
-          onClick={() => setActiveTab("history")}
-          className={`px-6 py-3 rounded-xl text-xs font-heading font-bold uppercase tracking-wider transition-all ${activeTab === "history" ? 'bg-[#020204] text-white border border-[#ffffff]/5' : 'text-slate-500 hover:text-white'}`}
-        >
-          Past Results
+          <Plus className="size-5" /> Create Battle
         </button>
       </div>
 
-      {/* Battles List */}
-      <div className="space-y-6 relative z-10">
-        <AnimatePresence>
-          {MOCK_BATTLES.filter((b) => (activeTab === "active" ? b.status !== "finished" : b.status === "finished")).map((battle, index) => (
-            <motion.div 
-              layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, x: -20 }}
-              transition={{ delay: index * 0.1 }}
-              key={battle.id} 
-              className={`bg-[#05050a] border border-[#ffffff]/5 rounded-3xl p-6 relative overflow-hidden flex flex-col md:flex-row md:items-center gap-6 group transition-all duration-500 hover:border-[#ff2a5f]/20 ${battle.status === 'active' ? 'border-[#00f0ff]/20 shadow-[0_0_15px_rgba(0,240,255,0.05)]' : ''}`}
+      {/* Controls */}
+      <div className="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex bg-[#05050a] p-1 rounded-2xl border border-white/5 w-full sm:w-auto">
+          {(["active", "history"] as const).map(tab => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-heading font-bold uppercase tracking-wider transition-all ${
+                activeTab === tab ? "bg-white/10 text-white" : "text-slate-500 hover:text-white"
+              }`}
             >
-              
-              {/* Status Indicator */}
-              {battle.status === 'active' && (
-                <div className="absolute top-0 left-0 w-1 h-full bg-[#00f0ff] glow-cyan" />
-              )}
+              {tab === "active" ? "Active Battles" : "History"}
+            </button>
+          ))}
+        </div>
 
-              {/* Player Card Style */}
-              <div className="flex w-full items-center justify-between md:w-64 shrink-0 border-b border-[#ffffff]/5 pb-4 md:border-b-0 md:border-r md:pb-0 md:pr-6 relative z-10">
-                 <div className="flex flex-col gap-2">
-                   <div className="inline-flex items-center gap-1 text-[10px] font-heading font-bold uppercase tracking-wider text-[#ff2a5f]">
-                     <Shield className="size-3" /> {battle.mode}
-                   </div>
-                   <div className="flex items-center gap-3">
-                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#a100ff] to-[#00f0ff] font-heading font-bold text-white shadow-lg">
-                       {battle.creator.charAt(0)}
-                     </div>
-                     <div>
-                       <div className="text-sm font-bold text-white group-hover:text-[#00f0ff] transition-colors">{battle.creator}</div>
-                       <div className="text-[10px] font-heading font-bold text-slate-600 uppercase tracking-wider">{battle.players}/{battle.maxPlayers} Players</div>
-                     </div>
-                   </div>
-                 </div>
-                 
-                 <div className="flex items-center gap-1.5">
-                   {[...Array(battle.maxPlayers)].map((_, i) => (
-                     <div key={i} className={`size-2.5 rounded-full ${i < battle.players ? 'bg-[#ff2a5f] glow-purple' : 'bg-[#020204] border border-[#ffffff]/10'}`} />
-                   ))}
-                 </div>
+        <div className="relative w-full sm:w-64">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-500" />
+          <input 
+            type="text" placeholder="Search creator..." 
+            value={search} onChange={e => setSearch(e.target.value)}
+            className="w-full bg-[#05050a] border border-white/5 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-[#ff2a5f]/30 transition-colors"
+          />
+        </div>
+      </div>
+
+      {/* Battle Grid */}
+      <div className="grid gap-4">
+        <AnimatePresence>
+          {filteredBattles.map(battle => (
+            <motion.div 
+              key={battle.id}
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-[#05050a] border border-white/5 rounded-2xl p-4 sm:p-6 flex flex-col lg:flex-row items-center gap-6 hover:border-white/10 transition-colors group"
+            >
+              {/* Creator Info */}
+              <div className="flex items-center gap-4 w-full lg:w-48 shrink-0">
+                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center font-heading font-bold text-lg text-white">
+                  {battle.creator.avatar}
+                </div>
+                <div>
+                  <div className="text-[10px] font-heading font-bold uppercase tracking-wider text-slate-500 mb-0.5">Creator</div>
+                  <div className="text-sm font-bold text-white truncate max-w-[120px]">{battle.creator.name}</div>
+                </div>
               </div>
 
-              {/* Cases Preview */}
-              <div className="flex flex-1 items-center gap-3 overflow-x-auto hide-scrollbar relative z-10">
-                {battle.cases.map((c, i) => (
-                  <motion.div 
-                    whileHover={{ y: -5 }}
-                    key={i} className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-[#020204] border border-[#ffffff]/5 group-hover:border-[#ffffff]/10 transition-colors"
-                  >
-                    <span className="text-2xl drop-shadow-lg">📦</span>
-                  </motion.div>
-                ))}
-                {battle.cases.length > 5 && (
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-[#020204] border border-[#ffffff]/5 text-xs font-heading font-bold text-slate-600">
-                    +{battle.cases.length - 5}
+              {/* Cases List */}
+              <div className="flex-1 flex flex-col w-full">
+                <div className="flex items-center gap-2 mb-2 overflow-x-auto pb-2 custom-scrollbar">
+                  {battle.cases.slice(0, 8).map((c, i) => (
+                    <div key={i} className="w-12 h-12 shrink-0 bg-[#020204] border border-white/5 rounded-lg flex items-center justify-center p-1 group-hover:border-white/20 transition-colors">
+                      <Package className="size-6 text-slate-600" />
+                    </div>
+                  ))}
+                  {battle.cases.length > 8 && (
+                    <div className="w-12 h-12 shrink-0 bg-[#020204] border border-white/5 rounded-lg flex items-center justify-center text-xs font-bold text-slate-500">
+                      +{battle.cases.length - 8}
+                    </div>
+                  )}
+                </div>
+                <div className="text-[10px] text-slate-500 font-medium">
+                  {battle.cases.length} Rounds
+                </div>
+              </div>
+
+              {/* Stats & Actions */}
+              <div className="flex items-center justify-between w-full lg:w-auto gap-6 shrink-0">
+                <div className="text-center lg:text-right">
+                  <div className="text-[10px] font-heading font-bold uppercase tracking-wider text-slate-500 mb-0.5">Total Value</div>
+                  <div className="text-xl font-heading font-bold text-[#ffaa00]">${battle.totalValue.toFixed(2)}</div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#020204] border border-white/5 rounded-lg">
+                    <Users className="size-3 text-slate-400" />
+                    <span className="text-xs font-bold text-white">{battle.players.length}/{battle.maxPlayers}</span>
                   </div>
-                )}
-              </div>
 
-              {/* Action / Cost */}
-              <div className="flex shrink-0 items-center justify-between gap-6 md:w-64 md:justify-end border-t border-[#ffffff]/5 pt-4 md:border-t-0 md:pt-0 relative z-10">
-                 <div className="text-right">
-                   <div className="text-[9px] font-heading font-bold uppercase tracking-wider text-slate-600 mb-0.5">Prize Pool</div>
-                   <div className="font-heading text-2xl font-bold text-[#ffaa00]">${battle.totalCost.toFixed(2)}</div>
-                 </div>
-                 
-                 {battle.status === "waiting" ? (
-                   <button 
-                     className="px-6 py-2.5 bg-[#020204] border border-[#ff2a5f]/20 rounded-lg text-xs font-heading font-bold uppercase tracking-wider text-[#ff2a5f] hover:bg-[#ff2a5f] hover:text-[#020204] hover:glow-purple transition-all"
-                   >
-                     Join
-                   </button>
-                 ) : (
-                   <button 
-                     className="px-6 py-2.5 bg-[#020204] border border-[#00f0ff]/20 rounded-lg text-xs font-heading font-bold uppercase tracking-wider text-[#00f0ff] hover:bg-[#00f0ff] hover:text-[#020204] hover:glow-cyan transition-all flex items-center gap-1.5"
-                   >
-                     <Play className="size-3" /> Watch
-                   </button>
-                 )}
+                  {battle.status === "WAITING" && (
+                    <Link href={`/battle/${battle.id}`} className="px-6 py-3 bg-[#ff2a5f]/10 border border-[#ff2a5f]/30 text-[#ff2a5f] rounded-xl text-xs font-heading font-bold uppercase tracking-wider hover:bg-[#ff2a5f]/20 transition-colors text-center w-28">
+                      JOIN
+                    </Link>
+                  )}
+                  {battle.status === "IN_PROGRESS" && (
+                    <Link href={`/battle/${battle.id}`} className="px-6 py-3 bg-[#00ff87]/10 border border-[#00ff87]/30 text-[#00ff87] rounded-xl text-xs font-heading font-bold uppercase tracking-wider hover:bg-[#00ff87]/20 transition-colors text-center w-28 flex items-center justify-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#00ff87] animate-ping" /> LIVE
+                    </Link>
+                  )}
+                  {battle.status === "COMPLETED" && (
+                    <Link href={`/battle/${battle.id}`} className="px-6 py-3 bg-white/5 border border-white/10 text-white rounded-xl text-xs font-heading font-bold uppercase tracking-wider hover:bg-white/10 transition-colors text-center w-28">
+                      VIEW
+                    </Link>
+                  )}
+                </div>
               </div>
-
             </motion.div>
           ))}
+          {filteredBattles.length === 0 && (
+            <div className="py-20 text-center bg-[#05050a] border border-white/5 rounded-3xl">
+              <ShieldAlert className="size-12 text-slate-700 mx-auto mb-4" />
+              <h3 className="text-lg font-bold text-white mb-1">No battles found</h3>
+              <p className="text-slate-500 text-sm">There are no {activeTab} battles at the moment.</p>
+              {activeTab === "active" && (
+                <button onClick={() => setShowCreateModal(true)} className="mt-6 px-6 py-2.5 bg-white/5 border border-white/10 text-white rounded-xl text-xs font-heading font-bold uppercase tracking-wider hover:bg-white/10 transition-colors">
+                  Create One Now
+                </button>
+              )}
+            </div>
+          )}
         </AnimatePresence>
+      </div>
 
-        {MOCK_BATTLES.filter((b) => (activeTab === "active" ? b.status !== "finished" : b.status === "finished")).length === 0 && (
+      {/* Trust Badge */}
+      <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="mt-16 text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#a100ff]/10 border border-[#a100ff]/20 text-xs font-heading font-bold uppercase tracking-wider text-[#a100ff]">
+          <CheckCircle2 className="size-4" /> EOS Provably Fair Battles
+        </div>
+      </motion.div>
+
+      {/* CREATE BATTLE MODAL */}
+      <AnimatePresence>
+        {showCreateModal && (
           <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            className="flex h-64 flex-col items-center justify-center rounded-3xl border border-[#ffffff]/5 bg-[#05050a] text-center"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#020204]/90 backdrop-blur-md p-4"
           >
-             <Trophy className="mb-4 size-12 text-slate-700 opacity-50" />
-             <h3 className="font-heading text-xl font-bold text-white">No battles found</h3>
-             <p className="text-slate-500 mt-1 text-sm">There are no {activeTab} battles at the moment.</p>
+            <motion.div 
+              initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 20 }}
+              className="bg-[#05050a] border border-white/10 rounded-3xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl"
+            >
+              <div className="p-6 border-b border-white/5 flex items-center justify-between">
+                <h2 className="text-lg font-heading font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                  <Plus className="size-5 text-[#ff2a5f]" /> Create Battle
+                </h2>
+                <button onClick={() => setShowCreateModal(false)} className="text-slate-500 hover:text-white transition-colors">
+                  <X className="size-5" />
+                </button>
+              </div>
+
+              <div className="p-6 overflow-y-auto custom-scrollbar flex-1 flex flex-col gap-8">
+                {/* Mode & Players */}
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <label className="text-xs font-heading font-bold uppercase tracking-wider text-slate-500 mb-3 block">Game Mode</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button className="py-3 px-4 rounded-xl border border-[#ff2a5f]/50 bg-[#ff2a5f]/10 text-white text-xs font-bold uppercase tracking-wider text-center">
+                        Classic (FFA)
+                      </button>
+                      <button className="py-3 px-4 rounded-xl border border-white/5 bg-[#020204] text-slate-500 text-xs font-bold uppercase tracking-wider text-center opacity-50 cursor-not-allowed">
+                        Team (2v2)
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-xs font-heading font-bold uppercase tracking-wider text-slate-500 mb-3 block">Players</label>
+                    <div className="grid grid-cols-3 gap-3">
+                      <button className="py-3 px-4 rounded-xl border border-[#ff2a5f]/50 bg-[#ff2a5f]/10 text-white text-xs font-bold uppercase tracking-wider text-center">
+                        2
+                      </button>
+                      <button className="py-3 px-4 rounded-xl border border-white/5 bg-[#020204] text-slate-500 hover:text-white hover:border-white/20 transition-colors text-xs font-bold uppercase tracking-wider text-center">
+                        3
+                      </button>
+                      <button className="py-3 px-4 rounded-xl border border-white/5 bg-[#020204] text-slate-500 hover:text-white hover:border-white/20 transition-colors text-xs font-bold uppercase tracking-wider text-center">
+                        4
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Case Selection */}
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="text-xs font-heading font-bold uppercase tracking-wider text-slate-500">Select Cases</label>
+                    <span className="text-xs font-bold text-slate-500">0 selected</span>
+                  </div>
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3">
+                    {MOCK_CASES.map(c => (
+                      <div key={c.id} className="bg-[#020204] border border-white/5 rounded-xl p-3 text-center cursor-pointer hover:border-white/20 transition-colors group">
+                        <div className="h-16 flex items-center justify-center mb-2">
+                          <Package className="size-8 text-slate-600 group-hover:text-white transition-colors" />
+                        </div>
+                        <div className="text-[10px] font-bold text-white truncate mb-1">{c.name}</div>
+                        <div className="text-xs font-heading font-bold text-[#00ff87]">${c.price.toFixed(2)}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Footer */}
+              <div className="p-6 border-t border-white/5 bg-[#020204] flex items-center justify-between">
+                <div>
+                  <div className="text-[10px] font-heading font-bold uppercase tracking-wider text-slate-500 mb-0.5">Total Cost</div>
+                  <div className="text-2xl font-heading font-bold text-white">$0.00</div>
+                </div>
+                <button className="px-8 py-3 bg-gradient-to-r from-[#ff2a5f] to-[#ffaa00] text-white rounded-xl font-heading font-bold uppercase tracking-wider text-sm opacity-50 cursor-not-allowed">
+                  Create Battle
+                </button>
+              </div>
+            </motion.div>
           </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </div>
   );
 }

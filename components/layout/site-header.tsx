@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { ShieldCheck, Wallet, Bell, Heart, Menu, Search, Users } from "lucide-react";
+import { ShieldCheck, Wallet, Heart, Search } from "lucide-react";
 import { auth } from "@/auth";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { CurrencySwitcher } from "@/components/layout/currency-switcher";
 import { UserMenu } from "@/components/layout/user-menu";
 import { NotificationDropdown } from "@/components/layout/notification-dropdown";
+import { ThemeSwitcher } from "@/components/layout/theme-switcher";
+import { MobileNav } from "@/components/layout/mobile-nav";
 
 const nav = [
   { href: "/", label: "Home" },
@@ -21,12 +23,12 @@ export async function SiteHeader() {
   const session = await auth();
 
   return (
-    <div className="fixed top-6 left-6 right-6 z-50 mx-auto max-w-[1600px]">
+    <div className="fixed top-2 left-2 right-2 sm:top-6 sm:left-6 sm:right-6 z-50 max-w-[1600px] mx-auto">
       <header className="premium-glass rounded-2xl reflective-glow">
         <div className="flex items-center justify-between gap-4 px-8 py-4">
           
           {/* Logo & Live Counter */}
-          <div className="flex items-center gap-6 shrink-0">
+          <div className="flex items-center gap-4 xl:gap-6">
             <Link href="/" className="flex items-center gap-3 group">
               <div className="rounded-xl bg-gradient-to-br from-[#a100ff] to-[#00f0ff] p-[1px] group-hover:glow-purple transition-all duration-500">
                 <div className="bg-[#020204] rounded-xl p-2">
@@ -49,15 +51,15 @@ export async function SiteHeader() {
           </div>
 
           {/* Navigation */}
-          <nav className="hidden items-center gap-6 xl:flex flex-1 justify-center">
+          <nav className="hidden items-center gap-10 xl:flex flex-1 justify-center">
             {nav.map((item) => (
-              <Link key={item.href} href={item.href} className="group relative text-sm font-semibold tracking-wider text-slate-400 transition-colors hover:text-white">
+              <Link key={item.href} href={item.href} className="group relative text-base font-semibold tracking-wider text-slate-400 transition-colors hover:text-white">
                 {item.label}
                 <span className="absolute bottom-[-4px] left-0 w-0 h-[2px] bg-gradient-to-r from-[#a100ff] to-[#00f0ff] transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
             {session?.user.role === "ADMIN" ? (
-              <Link href="/admin" className="group relative text-sm font-semibold tracking-wider text-[#ff2a5f] transition-colors hover:text-white">
+              <Link href="/admin" className="group relative text-base font-semibold tracking-wider text-[#ff2a5f] transition-colors hover:text-white">
                 Admin
                 <span className="absolute bottom-[-4px] left-0 w-0 h-[2px] bg-[#ff2a5f] transition-all duration-300 group-hover:w-full" />
               </Link>
@@ -65,7 +67,7 @@ export async function SiteHeader() {
           </nav>
 
           {/* Search Bar & User Actions */}
-          <div className="flex items-center gap-6 shrink-0">
+          <div className="flex items-center gap-4 xl:gap-6">
             {/* Search Bar */}
             <div className="hidden lg:flex items-center relative">
               <input 
@@ -85,6 +87,7 @@ export async function SiteHeader() {
             </div>
 
             <div className="hidden sm:flex items-center gap-2">
+              <ThemeSwitcher />
               <LanguageSwitcher />
               <CurrencySwitcher />
             </div>
@@ -103,9 +106,7 @@ export async function SiteHeader() {
             
             <UserMenu session={session} />
 
-            <button className="xl:hidden p-2 text-white hover:text-[#00f0ff] transition-colors">
-              <Menu className="size-6" />
-            </button>
+            <MobileNav nav={nav} session={session} />
           </div>
         </div>
       </header>

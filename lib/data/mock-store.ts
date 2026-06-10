@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+
 import type { ListingStatus, Role } from "@prisma/client";
 import type { SkinCard } from "@/types/market";
 

@@ -16,7 +16,7 @@ const SocketContext = createContext<SocketContextType>({
 
 export const useSocket = () => useContext(SocketContext);
 
-export const useSocketEvent = (event: string, callback: (data: any) => void) => {
+export const useSocketEvent = <T,>(event: string, callback: (data: T) => void) => {
   const { socket } = useSocket();
 
   useEffect(() => {

@@ -30,9 +30,10 @@ export function CurrencySwitcher() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 text-[11px] font-bold text-white bg-white/5 hover:bg-white/10 px-2 py-1.5 rounded border border-white/10 transition-colors uppercase tracking-wider"
+        className="group flex items-center gap-2 rounded-full border border-white/10 bg-surface/50 px-3 py-2 text-xs font-medium text-slate-200 transition-all hover:border-glow/40 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(89,242,196,0.15)] focus:outline-none uppercase"
       >
-        {currency} <ChevronDown className={`size-3 text-muted transition-transform duration-300 ${isOpen ? 'rotate-180 text-glow' : ''}`} />
+        <span>{currency}</span>
+        <ChevronDown className={`size-3.5 text-muted transition-transform duration-300 ${isOpen ? 'rotate-180 text-glow' : ''}`} />
       </button>
 
       {isOpen && (

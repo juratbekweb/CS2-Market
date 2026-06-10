@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS2 Marketplace</title>
+    <title>CS2 Marketplace - Buy & Sell CS2 Skins</title>
+    <meta name="description" content="Buy and sell CS2 skins, knives, gloves and more at the best prices. Safe, fast and trusted CS2 marketplace.">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -35,7 +36,7 @@
             <h1 class="hero-title">Premium CS2 Marketplace</h1>
             <p class="hero-subtitle">Browse rare skins, knives and gloves</p>
             <p class="hero-description">
-                Counter-Strike 2 uchun premium skinlarni ko‘ring, taqqoslang va savdo qiling.
+                Buy, sell and trade Counter-Strike 2 skins at the best prices with instant delivery and secure transactions.
             </p>
             <div class="hero-buttons">
                 <a href="products.html" class="btn btn-primary">Browse Items</a>
@@ -58,31 +59,207 @@
         </div>
     </section>
 
+    <!-- Featured Categories -->
     <section class="featured-section">
         <div class="container">
-            <div class="section-header">
-                <h2>Popular Sections</h2>
-                <p>Eski sayt ko‘rinishi qaytarildi</p>
-            </div>
+            <h2 class="section-title">Popular <span class="title-accent">Categories</span></h2>
             <div class="categories-grid">
                 <a href="products.html" class="category-card">
-                    <i class="fas fa-gun"></i>
-                    <h3>Browse Items</h3>
-                    <p>All marketplace skins</p>
+                    <i class="fas fa-gun category-icon"></i>
+                    <h3>Rifles & Pistols</h3>
+                    <p>AK-47, AWP, M4A4 and more</p>
                 </a>
-                <a href="product-detail.html" class="category-card">
-                    <i class="fas fa-star"></i>
-                    <h3>Featured Skin</h3>
-                    <p>Open product detail page</p>
+                <a href="products.html" class="category-card">
+                    <i class="fas fa-star category-icon"></i>
+                    <h3>Knives</h3>
+                    <p>Karambit, Butterfly, M9 Bayonet</p>
                 </a>
-                <a href="account.html" class="category-card">
-                    <i class="fas fa-user"></i>
-                    <h3>Account</h3>
-                    <p>Inventory and account panels</p>
+                <a href="products.html" class="category-card">
+                    <i class="fas fa-hand-sparkles category-icon"></i>
+                    <h3>Gloves</h3>
+                    <p>Sport, Specialist, Driver gloves</p>
+                </a>
+                <a href="products.html" class="category-card">
+                    <i class="fas fa-fire category-icon"></i>
+                    <h3>Top Deals</h3>
+                    <p>Best prices updated daily</p>
                 </a>
             </div>
         </div>
     </section>
+
+    <!-- Featured Items -->
+    <section class="categories-section">
+        <div class="container">
+            <h2 class="section-title">Featured <span class="title-accent">Items</span></h2>
+            <div class="items-grid" id="featuredGrid">
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV09e5mpWZhcj8MLfdqWdY781lteXI8oThxge4rhE4NTz3ItSTcgBsYFHW_FTqx-vs18e_vJmYwyc3pSN2s3eblkK5n1gSOQ/360fx360f" alt="AK-47 Redline" onerror="this.src='https://placehold.co/360x360/1a1a2e/00ff88?text=AK-47+Redline'">
+                        <div class="item-rarity rarity-restricted">Restricted</div>
+                        <div class="item-overlay">
+                            <a href="product-detail.html" class="btn-quick-view">Quick View</a>
+                        </div>
+                    </div>
+                    <div class="item-info">
+                        <h3 class="item-name">AK-47 | Redline</h3>
+                        <div class="item-meta">
+                            <span class="item-condition">Field-Tested</span>
+                            <span class="item-float">Float: 0.27</span>
+                        </div>
+                        <div class="item-price">
+                            <span class="price-amount">$125.50</span>
+                            <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf0ebcZThQ6tCvq4iGqPD8MrbQgXtu5Mx2gv2Po9ql2Fbh_hc_ZTumIoOVdFJsZ1DS_lK4xu3ng5O5vZiYm3ZrpGB8s3zf4A/360fx360f" alt="AWP Dragon Lore" onerror="this.src='https://placehold.co/360x360/1a1a2e/00ff88?text=AWP+Dragon+Lore'">
+                        <div class="item-rarity rarity-covert">Covert</div>
+                        <div class="item-overlay">
+                            <a href="product-detail.html" class="btn-quick-view">Quick View</a>
+                        </div>
+                    </div>
+                    <div class="item-info">
+                        <h3 class="item-name">AWP | Dragon Lore</h3>
+                        <div class="item-meta">
+                            <span class="item-condition">Minimal Wear</span>
+                            <span class="item-float">Float: 0.08</span>
+                        </div>
+                        <div class="item-price">
+                            <span class="price-amount">$3,200.00</span>
+                            <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovbSsLQJf2PLbcjhQ09-jq5WYh8j_OrfdqWdY-sB_j-yW8Y3giRC1qBRlZGqmcNSVcFZqMwuC-1e5yOvq18-9upmYmHRr7HRysX7b1hG91xY/360fx360f" alt="Karambit Fade" onerror="this.src='https://placehold.co/360x360/1a1a2e/00ff88?text=Karambit+Fade'">
+                        <div class="item-rarity rarity-covert">Covert</div>
+                        <div class="item-overlay">
+                            <a href="product-detail.html" class="btn-quick-view">Quick View</a>
+                        </div>
+                    </div>
+                    <div class="item-info">
+                        <h3 class="item-name">Karambit | Fade</h3>
+                        <div class="item-meta">
+                            <span class="item-condition">Factory New</span>
+                            <span class="item-float">Float: 0.01</span>
+                        </div>
+                        <div class="item-price">
+                            <span class="price-amount">$2,450.00</span>
+                            <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-image">
+                        <img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo7e1f1Jf0Ob3czFU6OWwlY20k_jkI7fUhFRd4cJ5nqeQrNmijVew-xJsZG33IoGcegM4YAnX_lS5w-ro0ZC4tcvJzHJ0cA6y-z-DyA/360fx360f" alt="M4A4 Howl" onerror="this.src='https://placehold.co/360x360/1a1a2e/00ff88?text=M4A4+Howl'">
+                        <div class="item-rarity rarity-covert">Contraband</div>
+                        <div class="item-overlay">
+                            <a href="product-detail.html" class="btn-quick-view">Quick View</a>
+                        </div>
+                    </div>
+                    <div class="item-info">
+                        <h3 class="item-name">M4A4 | Howl</h3>
+                        <div class="item-meta">
+                            <span class="item-condition">Field-Tested</span>
+                            <span class="item-float">Float: 0.21</span>
+                        </div>
+                        <div class="item-price">
+                            <span class="price-amount">$4,500.00</span>
+                            <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top: 2rem;">
+                <a href="products.html" class="btn btn-primary btn-large">View All Items</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="featured-section" style="background: var(--bg-secondary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            <h2 class="section-title">Why <span class="title-accent">Choose Us</span></h2>
+            <div class="categories-grid">
+                <div class="category-card" style="cursor: default;">
+                    <i class="fas fa-shield-halved category-icon"></i>
+                    <h3>100% Secure</h3>
+                    <p>All trades are protected with Steam's official trading system</p>
+                </div>
+                <div class="category-card" style="cursor: default;">
+                    <i class="fas fa-bolt category-icon"></i>
+                    <h3>Instant Delivery</h3>
+                    <p>Receive your items within seconds after purchase</p>
+                </div>
+                <div class="category-card" style="cursor: default;">
+                    <i class="fas fa-tags category-icon"></i>
+                    <h3>Best Prices</h3>
+                    <p>We offer the lowest fees and best market prices</p>
+                </div>
+                <div class="category-card" style="cursor: default;">
+                    <i class="fas fa-headset category-icon"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Our team is always ready to help you</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-crosshairs"></i> CS2 Marketplace</h3>
+                    <p>The most trusted platform for buying and selling CS2 skins, knives, gloves and cases.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-steam"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Marketplace</h4>
+                    <ul>
+                        <li><a href="products.html">Browse All Items</a></li>
+                        <li><a href="products.html">Knives</a></li>
+                        <li><a href="products.html">Gloves</a></li>
+                        <li><a href="products.html">Rifles</a></li>
+                        <li><a href="products.html">Pistols</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="account.html">My Account</a></li>
+                        <li><a href="account.html">Inventory</a></li>
+                        <li><a href="account.html">Trade History</a></li>
+                        <li><a href="account.html">Settings</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 CS2 Marketplace. All rights reserved. Not affiliated with Valve Corporation.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>

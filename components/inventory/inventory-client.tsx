@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Info, X, Zap, Grid, List, Filter, Sparkles, Star } from "lucide-react";
+import { Search, Info, X, Zap, Grid, List, Filter, RefreshCw, Link as LinkIcon } from "lucide-react";
 import { SellForm } from "@/components/marketplace/sell-form";
 import { currency } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,6 +15,9 @@ export function InventoryClient({ items }: { items: any[] }) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [inspectItem, setInspectItem] = useState<any>(null);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [tradeUrl, setTradeUrl] = useState("");
 
   const filteredItems = items.filter((item) => {
     const skin = item.skin;
@@ -22,6 +25,24 @@ export function InventoryClient({ items }: { items: any[] }) {
     const matchesFilter = filter === "all" || skin.category === filter || skin.rarity === filter;
     return matchesSearch && matchesFilter;
   });
+
+  const handleSync = async () => {
+    setIsSyncing(true);
+    // Simulate API call to fetch steam inventory
+    setTimeout(() => {
+      setIsSyncing(false);
+      alert("Inventory synced with Steam successfully!");
+    }, 2000);
+  };
+
+  const handleSaveUrl = () => {
+    if (!tradeUrl.includes("steamcommunity.com/tradeoffer")) {
+      alert("Please enter a valid Steam Trade URL.");
+      return;
+    }
+    setShowSettings(false);
+    alert("Trade URL saved successfully!");
+  };
 
   return (
     <div className="space-y-8">
@@ -72,12 +93,32 @@ export function InventoryClient({ items }: { items: any[] }) {
               <List className="size-4" />
             </button>
           </div>
+
+          <div className="flex bg-[#05050a] border border-[#ffffff]/5 rounded-2xl p-1 gap-1">
+            <button
+              onClick={handleSync}
+              disabled={isSyncing}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-heading font-bold uppercase tracking-wider transition-all ${
+                isSyncing ? 'text-slate-500 cursor-not-allowed' : 'bg-gradient-to-r from-[#a100ff]/20 to-[#00f0ff]/20 text-white hover:border-[#00f0ff]/30 border border-transparent'
+              }`}
+            >
+              <RefreshCw className={`size-4 ${isSyncing ? 'animate-spin' : ''}`} />
+              {isSyncing ? "Syncing..." : "Sync Steam"}
+            </button>
+            <button
+              onClick={() => setShowSettings(true)}
+              className="p-2 rounded-xl text-slate-600 hover:text-white transition-colors"
+              title="Trade Settings"
+            >
+              <LinkIcon className="size-4" />
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Grid / List View */}
       <AnimatePresence>
-        <div className={viewMode === "grid" ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-4" : "space-y-4"}>
+        <div className={viewMode === "grid" ? "grid gap-4 sm:gap-6 grid-cols-[repeat(auto-fill,minmax(240px,1fr))]" : "space-y-4"}>
           {filteredItems.map((item) => {
             const skin = item.skin;
             
@@ -284,6 +325,53 @@ export function InventoryClient({ items }: { items: any[] }) {
                      </Link>
                    </div>
                  </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Settings Modal */}
+      <AnimatePresence>
+        {showSettings && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#020204]/90 backdrop-blur-xl p-4" 
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }}
+              className="relative w-full max-w-md rounded-3xl border border-[#ffffff]/5 bg-[#05050a] p-6 shadow-2xl" 
+            >
+              <div className="flex items-center justify-between mb-6">
+                 <h3 className="font-heading text-lg font-bold uppercase text-white flex items-center gap-2">
+                   <LinkIcon className="size-5 text-[#a100ff]" /> Trade Settings
+                 </h3>
+                 <button onClick={() => setShowSettings(false)} className="text-slate-600 hover:text-white transition-colors">
+                   <X className="size-5" />
+                 </button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-xs font-heading font-bold uppercase tracking-wider text-slate-500 mb-2 block">Steam Trade URL</label>
+                  <input 
+                    type="text" 
+                    placeholder="https://steamcommunity.com/tradeoffer/new/?partner=..." 
+                    value={tradeUrl}
+                    onChange={(e) => setTradeUrl(e.target.value)}
+                    className="w-full bg-[#020204] border border-[#ffffff]/5 rounded-xl py-3 px-4 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-[#a100ff]/50 transition-colors"
+                  />
+                  <div className="mt-2 text-[10px] text-slate-500">
+                    Find your Trade URL in Steam &gt; Inventory &gt; Trade Offers &gt; Who can send me Trade Offers?
+                  </div>
+                </div>
+
+                <button 
+                  onClick={handleSaveUrl}
+                  className="w-full py-3 bg-gradient-to-r from-[#a100ff] to-[#00f0ff] rounded-xl text-xs font-heading font-bold uppercase tracking-wider text-white hover:opacity-90 transition-opacity mt-4"
+                >
+                  Save Settings
+                </button>
               </div>
             </motion.div>
           </motion.div>

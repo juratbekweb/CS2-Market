@@ -14,7 +14,7 @@ export default async function LoginPage() {
   const googleEnabled = Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
 
   return (
-    <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr,0.9fr] lg:px-8">
+    <div className="mx-auto grid max-w-[1600px] gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr,0.9fr] lg:px-8">
       <div className="rounded-[2rem] border border-white/10 bg-card/75 p-8">
         <SectionHeading
           eyebrow={translate(locale, "login.eyebrow")}

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowDownLeft, ArrowUpRight, History, Clock, Search, Filter, Download, CreditCard, DollarSign } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ArrowDownLeft, ArrowUpRight, History, Clock, Search, Download } from "lucide-react";
+import { motion } from "framer-motion";
 
 const MOCK_ORDERS = [
   { id: "ORD-1", type: "deposit", amount: 50.0, date: "2026-05-10T14:30:00Z", status: "completed", method: "Credit Card" },
@@ -157,7 +157,7 @@ export default function OrdersPage() {
             <div className="flex h-64 flex-col items-center justify-center text-center">
                <History className="mb-4 size-12 text-slate-700 opacity-50" />
                <h3 className="font-heading text-xl font-bold text-white">No transactions found</h3>
-               <p className="text-slate-500 mt-1 text-sm">You haven't made any {filter !== 'all' ? filter : ''} transactions yet.</p>
+               <p className="text-slate-500 mt-1 text-sm">You haven&apos;t made any {filter !== 'all' ? filter : ''} transactions yet.</p>
             </div>
           )}
         </div>

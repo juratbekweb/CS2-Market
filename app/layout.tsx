@@ -23,13 +23,27 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const locale = await getLocale();
 
   return (
-    <html lang={getLocaleTag(locale)} className={`${heading.variable} ${body.variable}`}>
+    <html lang={getLocaleTag(locale)} className={`${heading.variable} ${body.variable}`} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const theme = localStorage.getItem('theme');
+                if (theme && theme !== 'default') {
+                  document.documentElement.setAttribute('data-theme', theme);
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body>
         <AuthSessionProvider>
           <LocaleProvider initialLocale={locale}>
             <NotificationProvider>
               <SocketProvider>
-                <div className="relative min-h-screen overflow-hidden">
+                <div className="relative min-h-screen overflow-x-hidden">
                   {/* Background Effects */}
                   <div className="pointer-events-none absolute inset-0">
                     {/* Neon Glows */}
@@ -44,7 +58,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     {/* Grid */}
                     <div className="absolute inset-0 bg-hero-grid opacity-10" />
                   </div>
-                  <div className="relative z-10 flex min-h-screen flex-col">
+                  <div className="relative z-10 flex min-h-screen flex-col pt-[104px]">
                     <SiteHeader />
                     <LiveActivityFeed />
                     <main className="flex-1">{children}</main>

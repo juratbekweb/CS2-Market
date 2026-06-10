@@ -1,176 +1,116 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { useMemo, useState } from "react";
-import { FavoriteButton } from "@/components/marketplace/favorite-button";
-import { BuyButton } from "@/components/marketplace/buy-button";
-import { useLocale } from "@/components/providers/locale-provider";
-import { currency } from "@/lib/utils";
-import type { ListingCard } from "@/types/market";
-import { motion, AnimatePresence } from "framer-motion";
-import { Search, Filter, ArrowDownUp, Crosshair, Sparkles, Star, Zap } from "lucide-react";
+import { useState, useMemo } from "react";
+import { FilterSidebar, FilterState } from "./filter-sidebar";
+import { SkinCard, Listing } from "./skin-card";
+import { AnimatePresence, motion } from "framer-motion";
+import { Ghost, X } from "lucide-react";
 
-type SortOption = "featured" | "price-asc" | "price-desc" | "liquidity";
+interface MarketplaceGridProps {
+  initialListings: Listing[];
+}
 
-export function MarketplaceGrid({ listings }: { listings: ListingCard[] }) {
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("all");
-  const [sort, setSort] = useState<SortOption>("featured");
-  const { t, localizeSkin } = useLocale();
+export function MarketplaceGrid({ initialListings }: MarketplaceGridProps) {
+  const [filters, setFilters] = useState<FilterState>({
+    categories: [], rarities: [], exteriors: [], minPrice: 0, maxPrice: 10000, sort: "trending", search: ""
+  });
 
-  const localizedListings = useMemo(
-    () => listings.map((listing) => ({ ...listing, skin: localizeSkin(listing.skin) })),
-    [listings, localizeSkin],
-  );
-
-  const filtered = useMemo(() => {
-    const normalized = query.toLowerCase();
-    const next = localizedListings.filter((listing) => {
-      const matchesQuery =
-        listing.skin.name.toLowerCase().includes(normalized) ||
-        listing.skin.category.toLowerCase().includes(normalized) ||
-        listing.skin.collection.toLowerCase().includes(normalized);
-      const matchesCategory = category === "all" || listing.skin.category === category;
-      return matchesQuery && matchesCategory;
+  const filteredListings = useMemo(() => {
+    return initialListings.filter(listing => {
+      const { skin, askPrice } = listing;
+      if (filters.search && !skin.name.toLowerCase().includes(filters.search.toLowerCase())) return false;
+      if (filters.categories.length && !filters.categories.includes(skin.category)) return false;
+      if (filters.rarities.length && !filters.rarities.includes(skin.rarity)) return false;
+      if (filters.exteriors.length && !filters.exteriors.includes(skin.exterior)) return false;
+      if (askPrice < filters.minPrice || askPrice > filters.maxPrice) return false;
+      return true;
+    }).sort((a, b) => {
+      if (filters.sort === "price_asc") return a.askPrice - b.askPrice;
+      if (filters.sort === "price_desc") return b.askPrice - a.askPrice;
+      if (filters.sort === "float_asc") return a.skin.wear - b.skin.wear;
+      // "trending" and "newest" keep original sort (assuming latest first initially)
+      return 0;
     });
+  }, [initialListings, filters]);
 
-    return next.sort((a, b) => {
-      if (sort === "price-asc") return a.askPrice - b.askPrice;
-      if (sort === "price-desc") return b.askPrice - a.askPrice;
-      if (sort === "liquidity") return b.skin.liquidityScore - a.skin.liquidityScore;
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    });
-  }, [category, localizedListings, query, sort]);
+  const activeFilterCount = filters.categories.length + filters.rarities.length + filters.exteriors.length + (filters.search ? 1 : 0);
 
-  const categories = useMemo(
-    () => ["all", ...new Set(localizedListings.map((listing) => listing.skin.category))],
-    [localizedListings],
-  );
+  const removeCategory = (cat: string) => setFilters(p => ({ ...p, categories: p.categories.filter(c => c !== cat) }));
+  const removeRarity = (r: string) => setFilters(p => ({ ...p, rarities: p.rarities.filter(x => x !== r) }));
+  const removeExterior = (e: string) => setFilters(p => ({ ...p, exteriors: p.exteriors.filter(x => x !== e) }));
 
   return (
-    <div className="space-y-8">
-      {/* Advanced Filtering UI / Category Tabs */}
-      <div className="flex flex-col gap-6">
-        {/* Search & Sort */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-          <div className="relative w-full md:w-96">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-600" />
-            <input
-              value={query} onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search skins, collections..."
-              className="w-full bg-[#05050a] border border-[#ffffff]/5 rounded-2xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-[#00f0ff]/30 focus:shadow-[0_0_15px_rgba(0,240,255,0.1)] transition-all"
-            />
-          </div>
-
-          <div className="flex gap-4 w-full md:w-auto">
-            <div className="relative flex-1 md:w-56">
-               <ArrowDownUp className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-600 pointer-events-none" />
-               <select 
-                 value={sort} onChange={(event) => setSort(event.target.value as SortOption)} 
-                 className="w-full appearance-none bg-[#05050a] border border-[#ffffff]/5 rounded-2xl py-3 pl-10 pr-10 text-white text-sm focus:outline-none focus:border-[#ffaa00]/30 cursor-pointer"
-               >
-                 <option value="featured" className="bg-[#05050a]">Recently Added</option>
-                 <option value="price-asc" className="bg-[#05050a]">Price: Low to High</option>
-                 <option value="price-desc" className="bg-[#05050a]">Price: High to Low</option>
-                 <option value="liquidity" className="bg-[#05050a]">High Liquidity</option>
-               </select>
-            </div>
-          </div>
-        </div>
-
-        {/* Animated Category Tabs */}
-        <div className="overflow-x-auto hide-scrollbar">
-          <div className="flex gap-3 p-1 bg-[#05050a] border border-[#ffffff]/5 rounded-2xl w-max">
-            {categories.map((item) => (
-              <button
-                key={item}
-                onClick={() => setCategory(item)}
-                className={`px-5 py-2.5 rounded-xl text-xs font-heading font-bold uppercase tracking-wider transition-all ${category === item ? 'bg-gradient-to-r from-[#a100ff] to-[#00f0ff] text-white glow-purple' : 'text-slate-500 hover:text-white'}`}
-              >
-                {item === "all" ? "All Items" : item}
-              </button>
-            ))}
-          </div>
-        </div>
+    <div className="flex flex-col lg:flex-row gap-8">
+      {/* Sidebar - Desktop */}
+      <div className="hidden lg:block w-[280px] shrink-0">
+        <FilterSidebar onFilterChange={setFilters} />
       </div>
 
-      {/* Luxury Marketplace Grid */}
-      <AnimatePresence>
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-          {filtered.map((listing) => (
-            <motion.article 
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              key={listing.id} 
-              className="bg-[#05050a] border border-[#ffffff]/5 rounded-3xl p-5 cursor-pointer relative group overflow-hidden flex flex-col h-full"
-            >
-              {/* Rarity Background Glow */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,240,255,0.05)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              {/* Animated Border on Hover */}
-              <div className="absolute inset-0 border border-[#a100ff]/0 group-hover:border-[#a100ff]/30 rounded-3xl transition-colors duration-500" />
-
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="flex justify-between items-start mb-4">
-                  <span className="text-[10px] font-heading font-bold uppercase tracking-wider bg-[#020204] px-2.5 py-1 rounded-lg border border-[#ffffff]/5 text-[#ffaa00]">
-                    FN {listing.skin.wear.toFixed(3)}
-                  </span>
-                  <div className="z-20">
-                    <FavoriteButton skinId={listing.skin.id} initial={Boolean(listing.skin.favorite)} />
-                  </div>
-                </div>
-
-                {/* Skin Image Mock */}
-                <div className="h-40 mb-6 bg-gradient-to-b from-transparent to-[#ffffff]/5 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-transform duration-500 relative">
-                  <Image src={listing.skin.image} alt={listing.skin.name} fill className="object-contain p-6 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" />
-                </div>
-
-                <div className="mb-4">
-                  <div className="text-xs text-slate-600 font-medium mb-1">{listing.skin.category} • {listing.skin.collection}</div>
-                  <Link href={`/marketplace/${listing.skin.slug}`} className="block">
-                    <div className="text-base font-bold text-white group-hover:text-[#00f0ff] transition-colors truncate">
-                      {listing.skin.name}
-                    </div>
-                  </Link>
-                </div>
-
-                {/* Grid Stats */}
-                <div className="grid grid-cols-2 gap-2 mb-4 text-[10px] font-heading font-bold uppercase tracking-wider text-slate-600">
-                  <div className="bg-[#020204] p-2 rounded-lg border border-[#ffffff]/5 text-center">
-                    <div className="text-slate-500 mb-0.5">Liquidity</div>
-                    <div className="text-[#ffaa00]">{listing.skin.liquidityScore}</div>
-                  </div>
-                  <div className="bg-[#020204] p-2 rounded-lg border border-[#ffffff]/5 text-center">
-                    <div className="text-slate-500 mb-0.5">Style</div>
-                    <div className="text-white truncate">{listing.skin.finishStyle}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-[#ffffff]/5">
-                  <div>
-                    <div className="text-[9px] font-heading font-bold uppercase tracking-widest text-slate-600 mb-0.5">Price</div>
-                    <div className="text-xl font-heading font-bold text-[#00ff87]">
-                      {currency(listing.askPrice)}
-                    </div>
-                  </div>
-                  <div className="transition-transform group-hover:scale-105">
-                     <BuyButton listingId={listing.id} />
-                  </div>
-                </div>
-              </div>
-            </motion.article>
-          ))}
+      {/* Main Grid Area */}
+      <div className="flex-1 min-w-0">
+        
+        {/* Top Bar */}
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3 flex-wrap">
+            <span className="text-sm font-heading font-bold text-white uppercase tracking-wider">
+              {filteredListings.length} Results
+            </span>
+            {/* Active filter badges */}
+            <AnimatePresence>
+              {filters.categories.map(c => (
+                <motion.button key={`cat-${c}`} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} onClick={() => removeCategory(c)} className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-[10px] font-heading font-bold uppercase tracking-wider text-slate-300 hover:bg-white/10 transition-colors">
+                  {c} <X className="size-3" />
+                </motion.button>
+              ))}
+              {filters.rarities.map(r => (
+                <motion.button key={`rar-${r}`} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} onClick={() => removeRarity(r)} className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-[10px] font-heading font-bold uppercase tracking-wider text-slate-300 hover:bg-white/10 transition-colors">
+                  {r} <X className="size-3" />
+                </motion.button>
+              ))}
+              {filters.exteriors.map(e => (
+                <motion.button key={`ext-${e}`} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} onClick={() => removeExterior(e)} className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-[10px] font-heading font-bold uppercase tracking-wider text-slate-300 hover:bg-white/10 transition-colors">
+                  {e} <X className="size-3" />
+                </motion.button>
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
-      </AnimatePresence>
 
-      {filtered.length === 0 && (
-         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex h-64 flex-col items-center justify-center rounded-3xl border border-[#ffffff]/5 bg-[#05050a] text-center">
-            <Crosshair className="size-12 text-slate-600 mb-4 opacity-50" />
-            <h3 className="font-heading text-xl font-bold text-white">No items found</h3>
-            <p className="text-slate-500 mt-1 text-sm">Adjust your filters or search query</p>
-         </motion.div>
-      )}
+        {/* Grid */}
+        {filteredListings.length > 0 ? (
+          <motion.div layout className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4 sm:gap-6">
+            <AnimatePresence>
+              {filteredListings.map(listing => (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.2 }}
+                  key={listing.id}
+                >
+                  <SkinCard listing={listing} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        ) : (
+          <div className="flex flex-col items-center justify-center p-20 bg-[#05050a] border border-white/5 rounded-3xl mt-4">
+            <Ghost className="size-16 text-slate-700 mb-4" />
+            <h3 className="font-heading text-xl font-bold text-white mb-2">No items found</h3>
+            <p className="text-sm text-slate-500 max-w-md text-center">We couldn&apos;t find any skins matching your exact filters. Try adjusting your search criteria or price range.</p>
+            {activeFilterCount > 0 && (
+              <button 
+                onClick={() => setFilters({ categories: [], rarities: [], exteriors: [], minPrice: 0, maxPrice: 10000, sort: "trending", search: "" })}
+                className="mt-6 px-6 py-2.5 rounded-xl bg-white/5 border border-white/10 text-xs font-heading font-bold uppercase tracking-wider text-white hover:bg-white/10 transition-colors"
+              >
+                Clear all filters
+              </button>
+            )}
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }

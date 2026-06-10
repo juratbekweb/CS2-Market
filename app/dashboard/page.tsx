@@ -27,14 +27,14 @@ export default async function DashboardPage() {
   if (!snapshot) redirect("/login");
 
   return (
-    <div className="mx-auto max-w-7xl space-y-10 px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-[1600px] space-y-10 px-4 py-16 sm:px-6 lg:px-8">
       <SectionHeading
         eyebrow={translate(locale, "dashboard.eyebrow")}
         title={translate(locale, "dashboard.title")}
         description={translate(locale, "dashboard.description")}
       />
 
-      <div className="grid gap-5 lg:grid-cols-4">
+      <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(240px,1fr))]">
         {snapshot.kpis.map((item, index) => (
           <KpiCard
             key={item.label}
@@ -73,7 +73,7 @@ export default async function DashboardPage() {
 
       <div className="rounded-[2rem] border border-white/10 bg-card/75 p-8">
         <div className="text-xs uppercase tracking-[0.3em] text-glow">{translate(locale, "dashboard.transactions")}</div>
-        <div className="mt-6 overflow-hidden rounded-[1.5rem] border border-white/10">
+        <div className="mt-6 overflow-x-auto rounded-[1.5rem] border border-white/10 custom-scrollbar">
           <table className="min-w-full divide-y divide-white/10 text-left text-sm">
             <thead className="bg-white/5 text-xs uppercase tracking-[0.2em] text-muted">
               <tr>

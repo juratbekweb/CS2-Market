@@ -169,7 +169,7 @@ app.get("/health", (req, res) => {
 app.post("/trade/deposit", requireAuth, async (req, res) => {
   if (!botReady) return res.status(503).json({ error: "Bot not ready" });
 
-  const { userSteamId, tradeUrl, assetIds } = req.body;
+  const { tradeUrl, assetIds } = req.body;
   if (!tradeUrl || !assetIds?.length) {
     return res.status(400).json({ error: "tradeUrl and assetIds required" });
   }

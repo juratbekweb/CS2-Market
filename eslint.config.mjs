@@ -1,9 +1,13 @@
 import path from "path";
 import { fileURLToPath } from "url";
-import nextPlugin from "@next/eslint-plugin-next";
+import { FlatCompat } from "@eslint/eslintrc";
 import tseslint from "typescript-eslint";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
 
 export default tseslint.config(
   {
@@ -20,12 +24,10 @@ export default tseslint.config(
       "*.js",
     ],
   },
+  ...compat.extends("next/core-web-vitals"),
   ...tseslint.configs.recommended,
   {
     files: ["**/*.{ts,tsx}"],
-    plugins: {
-      "@next/next": nextPlugin,
-    },
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -33,7 +35,6 @@ export default tseslint.config(
       },
     },
     rules: {
-      ...nextPlugin.configs["core-web-vitals"].rules,
       "@next/next/no-html-link-for-pages": "off",
     },
   },

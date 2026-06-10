@@ -42,7 +42,7 @@ export function LiveActivityFeed() {
 
   return (
     <div className="border-b border-white/5 bg-[#020204]/80 backdrop-blur-md">
-      <div className="flex items-center gap-4 overflow-x-auto py-2 px-4 scrollbar-none">
+      <div className="mx-auto flex max-w-7xl items-center justify-center gap-8 overflow-x-auto py-2 px-6 scrollbar-none">
         <div className="flex items-center gap-4 text-xs font-bold uppercase whitespace-nowrap">
           <div className="flex items-center gap-2 text-flame">
             <span className="size-2 rounded-full bg-flame animate-pulse" />
@@ -68,6 +68,7 @@ export function LiveActivityFeed() {
               >
                 <div className="size-8 rounded-md bg-black/40 flex items-center justify-center overflow-hidden">
                   {event.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img src={event.image} alt={event.item} className="size-6 object-contain" />
                   ) : (
                     <span className="text-white/30 text-xs">CS2</span>

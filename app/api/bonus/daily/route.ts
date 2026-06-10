@@ -34,11 +34,15 @@ export async function POST(request: Request) {
     const amount = DAILY_AMOUNTS[Math.min(streak - 1, 6)];
     await prisma.$transaction([
       prisma.dailyBonus.create({ data: { userId: session.user.id, amount, day: streak } }),
-      prisma.user.update({ where: { id: session.user.id }, data: { balance: { increment: amount } } }),
+      prisma.wallet.upsert({
+        where: { userId: session.user.id },
+        create: { userId: session.user.id, balance: amount },
+        update: { balance: { increment: amount } }
+      }),
       prisma.transaction.create({ data: { userId: session.user.id, type: "DAILY_BONUS", amount, description: `Daily bonus day ${streak}` } }),
     ]);
-    const u = await prisma.user.findUnique({ where: { id: session.user.id } });
-    return NextResponse.json({ amount, day: streak, balance: u ? Number(u.balance) : 0 });
+    const wallet = await prisma.wallet.findUnique({ where: { userId: session.user.id } });
+    return NextResponse.json({ amount, day: streak, balance: wallet ? Number(wallet.balance) : 0 });
   } catch (e) { console.error(e); return NextResponse.json({ error: "Server error" }, { status: 500 }); }
 }
 

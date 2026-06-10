@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Package, Sparkles, Star, Search, Zap, Crown, Flame } from "lucide-react";
+import { Package, Sparkles, Star, Search, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface CaseInfo {
@@ -47,7 +47,7 @@ export default function CasesPage() {
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-16">
+    <div className="mx-auto max-w-[1600px] px-4 sm:px-6 py-16">
       {/* Header */}
       <div className="mb-16 text-center relative z-10">
         <motion.div 
@@ -102,7 +102,7 @@ export default function CasesPage() {
         </div>
       ) : (
         <AnimatePresence>
-          <motion.div layout className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <motion.div layout className="grid gap-6 sm:gap-8 grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
             {filteredCases.map((c, index) => (
               <motion.div 
                 layout initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9 }}
