@@ -39,19 +39,23 @@ export async function middleware(request: NextRequest) {
             ? "trade"
             : "market";
 
-    const rateLimitResult = checkRateLimit(getIdentifier(request), category);
-    if (rateLimitResult.limited) {
-      return NextResponse.json(
-        { error: "Too many requests. Please try again later." },
-        {
-          status: 429,
-          headers: {
-            "Retry-After": String(rateLimitResult.retryAfter),
-            "X-RateLimit-Limit": String(category === "auth" ? 10 : category === "admin" ? 30 : 60),
-            "X-RateLimit-Remaining": "0",
+    try {
+      const rateLimitResult = checkRateLimit(getIdentifier(request), category);
+      if (rateLimitResult.limited) {
+        return NextResponse.json(
+          { error: "Too many requests. Please try again later." },
+          {
+            status: 429,
+            headers: {
+              "Retry-After": String(rateLimitResult.retryAfter),
+              "X-RateLimit-Limit": String(category === "auth" ? 10 : category === "admin" ? 30 : 60),
+              "X-RateLimit-Remaining": "0",
+            },
           },
-        },
-      );
+        );
+      }
+    } catch (error) {
+      console.error("Middleware rate limit error:", error);
     }
   }
 
@@ -76,7 +80,18 @@ export async function middleware(request: NextRequest) {
   const isAuthRoute = AUTH_ROUTES.some(route => pathname.startsWith(route));
 
   if (isProtected || isAdmin) {
-    const session = await auth();
+    let session;
+    try {
+      session = await auth();
+    } catch (error) {
+      console.error("Middleware auth error:", error);
+      if (pathname.startsWith("/api/")) {
+        return NextResponse.json({ error: "Authentication service unavailable" }, { status: 503 });
+      }
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("callbackUrl", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
 
     if (!session?.user) {
       const loginUrl = new URL("/login", request.url);
@@ -84,7 +99,13 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    const blocked = await isUserBlocked(session.user.id ?? null);
+    let blocked = false;
+    try {
+      blocked = await isUserBlocked(session.user.id ?? null);
+    } catch (error) {
+      console.error("Middleware blocked check error:", error);
+    }
+
     if (blocked) {
       if (pathname.startsWith("/api/")) {
         return NextResponse.json({ error: "Access denied. Your account is blocked." }, { status: 403 });
