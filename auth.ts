@@ -6,8 +6,14 @@ import { prisma } from "@/lib/prisma";
 import { mockUsers } from "@/lib/data/mock-store";
 import { getCurrentUserByEmail } from "@/lib/store";
 
+const authSecret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
+
+if (!authSecret) {
+  throw new Error("AUTH_SECRET is required. Set AUTH_SECRET (preferred) or NEXTAUTH_SECRET in your environment.");
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  secret: process.env.AUTH_SECRET ?? "local-dev-auth-secret",
+  secret: authSecret,
   trustHost: true,
   adapter: process.env.DATABASE_URL ? PrismaAdapter(prisma) : undefined,
   // Force JWT strategy because Credentials provider requires it in NextAuth v5

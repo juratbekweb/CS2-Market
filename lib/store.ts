@@ -37,6 +37,21 @@ export async function getCurrentUserByEmail(email?: string | null) {
   return prisma.user.findUnique({ where: { email } });
 }
 
+export async function getUserById(userId?: string | null) {
+  if (!userId) return null;
+
+  if (useMock) {
+    return mockUsers.find((user) => user.id === userId) ?? null;
+  }
+
+  return prisma.user.findUnique({ where: { id: userId } });
+}
+
+export async function isUserBlocked(userId?: string | null) {
+  const user = await getUserById(userId);
+  return Boolean(user?.isBlocked);
+}
+
 export async function getMarketplaceData(sessionUser?: SessionUser) {
   const viewer = await getCurrentUserByEmail(sessionUser?.email);
 

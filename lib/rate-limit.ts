@@ -1,6 +1,6 @@
 /**
- * Simple in-memory rate limiter for API routes
- * For production, use Redis-based rate limiting
+ * Simple in-memory rate limiter for API routes.
+ * For production, replace this with Redis / Upstash.
  */
 
 interface RateLimitEntry {
@@ -10,7 +10,6 @@ interface RateLimitEntry {
 
 const store = new Map<string, RateLimitEntry>();
 
-// Clean up expired entries every 5 minutes
 setInterval(() => {
   const now = Date.now();
   for (const [key, entry] of store.entries()) {
@@ -26,18 +25,16 @@ export interface RateLimitConfig {
 }
 
 const DEFAULTS: Record<string, RateLimitConfig> = {
-  api: { maxRequests: 100, windowMs: 60_000 },
+  api: { maxRequests: 120, windowMs: 60_000 },
+  admin: { maxRequests: 30, windowMs: 60_000 },
   auth: { maxRequests: 10, windowMs: 60_000 },
+  trade: { maxRequests: 15, windowMs: 60_000 },
+  wallet: { maxRequests: 15, windowMs: 60_000 },
+  market: { maxRequests: 60, windowMs: 60_000 },
   upgrade: { maxRequests: 20, windowMs: 60_000 },
   caseOpen: { maxRequests: 30, windowMs: 60_000 },
-  trade: { maxRequests: 10, windowMs: 60_000 },
-  wallet: { maxRequests: 10, windowMs: 60_000 },
 };
 
-/**
- * Check if a request is rate limited
- * @returns null if allowed, or { retryAfter } if limited
- */
 export function checkRateLimit(
   identifier: string,
   category: keyof typeof DEFAULTS = "api",
@@ -64,12 +61,12 @@ export function checkRateLimit(
   return { limited: false };
 }
 
-/**
- * Helper to get IP or user identifier from request headers
- */
-export function getIdentifier(request: Request, userId?: string): string {
+export function getIdentifier(request: Request | { headers: Headers }, userId?: string): string {
   if (userId) return userId;
-  const forwarded = request.headers.get("x-forwarded-for");
-  const ip = forwarded?.split(",")[0]?.trim() ?? "unknown";
+
+  const forwarded = request.headers.get("x-forwarded-for") ?? "";
+  const realIp = request.headers.get("x-real-ip") ?? "";
+  const ip = forwarded.split(",")[0]?.trim() || realIp.trim() || "unknown";
+
   return ip;
 }

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { auth } from "@/auth";
+import { isUserBlocked } from "@/lib/store";
+import { checkRateLimit, getIdentifier } from "@/lib/rate-limit";
 
 // Routes requiring authentication
 const PROTECTED_ROUTES = [
@@ -19,6 +21,40 @@ const AUTH_ROUTES = ["/login"];
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  const isRateLimitedRoute =
+    pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/api/admin") ||
+    pathname.startsWith("/api/wallet") ||
+    pathname.startsWith("/api/trade") ||
+    pathname.startsWith("/api/market");
+
+  if (isRateLimitedRoute) {
+    const category = pathname.startsWith("/api/auth")
+      ? "auth"
+      : pathname.startsWith("/api/admin")
+        ? "admin"
+        : pathname.startsWith("/api/wallet")
+          ? "wallet"
+          : pathname.startsWith("/api/trade")
+            ? "trade"
+            : "market";
+
+    const rateLimitResult = checkRateLimit(getIdentifier(request), category);
+    if (rateLimitResult.limited) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(rateLimitResult.retryAfter),
+            "X-RateLimit-Limit": String(category === "auth" ? 10 : category === "admin" ? 30 : 60),
+            "X-RateLimit-Remaining": "0",
+          },
+        },
+      );
+    }
+  }
+
   // Block banned/malicious user agents
   const ua = request.headers.get("user-agent") || "";
   const suspiciousPatterns = [/sqlmap/i, /nikto/i, /masscan/i, /zgrab/i];
@@ -31,8 +67,12 @@ export async function middleware(request: NextRequest) {
     return new NextResponse("Bad Request", { status: 400 });
   }
 
-  const isProtected = PROTECTED_ROUTES.some(route => pathname.startsWith(route));
-  const isAdmin = ADMIN_ROUTES.some(route => pathname.startsWith(route));
+  const isProtected =
+    PROTECTED_ROUTES.some(route => pathname.startsWith(route)) ||
+    pathname.startsWith("/api/admin") ||
+    pathname.startsWith("/api/wallet") ||
+    pathname.startsWith("/api/trade");
+  const isAdmin = ADMIN_ROUTES.some(route => pathname.startsWith(route)) || pathname.startsWith("/api/admin");
   const isAuthRoute = AUTH_ROUTES.some(route => pathname.startsWith(route));
 
   if (isProtected || isAdmin) {
@@ -44,8 +84,15 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    // Check if user is blocked (from session token, would need custom session logic)
-    // For now we check ADMIN only
+    const blocked = await isUserBlocked(session.user.id ?? null);
+    if (blocked) {
+      if (pathname.startsWith("/api/")) {
+        return NextResponse.json({ error: "Access denied. Your account is blocked." }, { status: 403 });
+      }
+
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
     if (isAdmin && session.user.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/", request.url));
     }
@@ -57,9 +104,17 @@ export async function middleware(request: NextRequest) {
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-XSS-Protection", "1; mode=block");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("X-Download-Options", "noopen");
+  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  response.headers.set("Cross-Origin-Resource-Policy", "same-origin");
+  response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+  response.headers.set(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://images.unsplash.com https://steamcommunity-a.akamaihd.net https://economy.csgo.steamstatic.com https://cdn.akamai.steamstatic.com; font-src 'self' data:; connect-src 'self' https:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests;"
+  );
   response.headers.set(
     "Permissions-Policy",
-    "camera=(), microphone=(), geolocation=()"
+    "camera=(), microphone=(), geolocation=(), payment=()"
   );
 
   return response;
